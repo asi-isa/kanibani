@@ -24,7 +24,7 @@ function toggleDarkMode() {
 
 <template>
   <div
-    class="bg-[var(--background)] dark:bg-[var(--background-dark)] py-3 px-5 duration-500 rounded flex items-center gap-3"
+    class="bg-[var(--background)] dark:bg-[var(--background-dark)] py-3 px-5 duration-500 rounded flex items-center justify-center w-full max-w-[14rem] gap-4"
   >
     <IconMoonWaningCrescent />
     <Toggle @click="toggleDarkMode" :checked="checked" />

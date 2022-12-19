@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onBeforeMount, onMounted } from "vue";
-import ToggleDarkMode from "./components/ToggleDarkMode.vue";
+import { onBeforeMount } from "vue";
+import Sidebar from "./components/Sidebar.vue";
 
 function setInitialThemeToLS() {
   // theme not set in ls
@@ -29,8 +29,8 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <div class="h-screen flex items-center justify-center">
-    <ToggleDarkMode />
+  <div class="h-screen">
+    <Sidebar />
   </div>
 </template>
 
