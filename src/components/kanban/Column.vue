@@ -9,7 +9,7 @@ const { name, color } = defineProps<ColumnProps>();
 <template>
   <div class="flex flex-col gap-4">
     <div class="flex gap-2 items-center">
-      <div class="w-3 h-3 rounded-full" :class="`bg-${color}`"></div>
+      <div class="w-3 h-3 rounded-full" :class="color"></div>
       <p class="tracking-wider text-[var(--color-muted)]">{{ name }} (7)</p>
     </div>
 

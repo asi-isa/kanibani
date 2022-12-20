@@ -8,14 +8,14 @@ import Task from "./Task.vue";
   <div
     class="bg-[var(--background)] dark:bg-[var(--background-dark)] p-4 flex gap-4 w-screen h-fit overflow-auto"
   >
-    <Column name="TODO" color="orange-400">
+    <Column name="TODO" color="bg-orange-400">
       <Task />
       <Task />
       <Task />
       <Task />
     </Column>
 
-    <Column name="DOING" color="blue-400">
+    <Column name="DOING" color="bg-blue-400">
       <Task />
       <Task />
       <Task />

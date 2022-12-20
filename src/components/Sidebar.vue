@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import {
   IconDotsTriangle,
-  IconCheckboxBlankBadgeOutline,
   IconEyeOffOutline,
   IconEyeOutline,
 } from "@iconify-prerendered/vue-mdi";
 
 import FadeIn from "@/transition/FadeIn.vue";
 import ToggleDarkMode from "./ToggleDarkMode.vue";
+import BoardTitle from "./sidebar/BoardTitle.vue";
+import CreateBoard from "./sidebar/CreateBoard.vue";
 
 interface SidebarProps {
   hide: boolean;
@@ -17,6 +17,14 @@ interface SidebarProps {
 const { hide } = defineProps<SidebarProps>();
 
 const emit = defineEmits(["hide"]);
+
+const boardsAsString = localStorage.getItem("boards");
+const boards = JSON.parse(boardsAsString || "{}");
+const boardsAsArray: { id: string; title: string }[] = [];
+
+for (let key in boards) {
+  boardsAsArray.push({ id: key, title: boards[key].title });
+}
 </script>
 
 <template>
@@ -34,30 +42,13 @@ const emit = defineEmits(["hide"]);
         <p class="text-[var(--color-muted)] text-xs tracking-wider ml-5">
           ALL BOARDS (7)
         </p>
-        <div
-          class="flex items-center gap-3 bg-[var(--accent)] py-1 pl-5 rounded-r-2xl"
-        >
-          <IconCheckboxBlankBadgeOutline />
-          <p class="">Kanbani</p>
+
+        <div v-for="board in boardsAsArray" :id="board.id">
+          <!-- TODO selected logic -->
+          <BoardTitle :name="board.title" :selected="true" />
         </div>
-        <div
-          class="flex items-center gap-3 py-1 pl-5 rounded-r-2xl text-[var(--color-muted)]"
-        >
-          <IconCheckboxBlankBadgeOutline />
-          <p class="">TicTacToe</p>
-        </div>
-        <div
-          class="flex items-center gap-3 py-1 pl-5 rounded-r-2xl text-[var(--color-muted)]"
-        >
-          <IconCheckboxBlankBadgeOutline />
-          <p class="">Vuejs</p>
-        </div>
-        <div
-          class="flex items-center gap-3 py-1 pl-5 rounded-r-2xl text-[var(--accent)]"
-        >
-          <IconCheckboxBlankBadgeOutline />
-          <p>+ Create New Board</p>
-        </div>
+
+        <CreateBoard />
       </div>
 
       <div class="ml-4 flex flex-col gap-5">

@@ -7,7 +7,7 @@ function onBeforeEnter(el: HTMLElement) {
 }
 
 function onEnter(el: HTMLElement, done: () => void) {
-  animate(el, { opacity: 1 }, { duration: 1 }).finished.then(done);
+  animate(el, { opacity: 1 }).finished.then(done);
 }
 
 function onLeave(el: HTMLElement, done: () => void) {
