@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { onBeforeMount } from "vue";
+import { onBeforeMount, ref } from "vue";
+
+import Navbar from "./components/Navbar.vue";
 import Sidebar from "./components/Sidebar.vue";
 
 function setInitialThemeToLS() {
@@ -29,9 +31,9 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <div class="h-screen">
-    <Sidebar />
-  </div>
+  <Sidebar />
+
+  <Navbar />
 </template>
 
 <style scoped></style>

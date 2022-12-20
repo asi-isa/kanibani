@@ -15,7 +15,7 @@ const hide = ref<boolean>(false);
 
 <template>
   <div
-    class="h-full w-fit flex flex-col gap-6 py-3 pr-5 bg-[var(--background-muted)] dark:bg-[var(--background-muted-dark)] transition-transform duration-1000"
+    class="h-screen w-fit flex flex-col gap-6 py-3 pr-5 bg-[var(--background-muted)] dark:bg-[var(--background-muted-dark)] border-r border-[var(--color-muted)] absolute left-0 top-0 bottom-0 z-10 transition-transform duration-500"
     :class="{ '-translate-x-full': hide }"
   >
     <div class="flex items-center gap-3 text-3xl ml-5">
