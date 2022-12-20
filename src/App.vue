@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { onBeforeMount, ref } from "vue";
+import { onBeforeMount, onMounted, ref } from "vue";
 
 import Navbar from "./components/Navbar.vue";
 import Sidebar from "./components/Sidebar.vue";
+import Kanban from "./components/kanban/Kanban.vue";
 
 function setInitialThemeToLS() {
   // theme not set in ls
@@ -28,12 +29,20 @@ onBeforeMount(() => {
   setInitialThemeToLS();
   setThemeToDocument();
 });
+
+const hideSidebar = ref(false);
 </script>
 
 <template>
-  <Sidebar />
+  <Sidebar :hide="hideSidebar" @hide="(state) => (hideSidebar = state)" />
 
-  <Navbar />
+  <div
+    class="h-screen flex flex-col transition-all duration-500 overflow-hidden"
+    :class="{ 'pl-56': !hideSidebar }"
+  >
+    <Navbar />
+    <Kanban />
+  </div>
 </template>
 
 <style scoped></style>

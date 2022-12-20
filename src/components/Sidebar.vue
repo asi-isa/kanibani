@@ -10,12 +10,18 @@ import {
 import FadeIn from "@/transition/FadeIn.vue";
 import ToggleDarkMode from "./ToggleDarkMode.vue";
 
-const hide = ref<boolean>(false);
+interface SidebarProps {
+  hide: boolean;
+}
+
+const { hide } = defineProps<SidebarProps>();
+
+const emit = defineEmits(["hide"]);
 </script>
 
 <template>
   <div
-    class="h-screen w-fit flex flex-col gap-6 py-3 pr-5 bg-[var(--background-muted)] dark:bg-[var(--background-muted-dark)] border-r border-[var(--color-muted)] absolute left-0 top-0 bottom-0 z-10 transition-transform duration-500"
+    class="h-screen flex flex-col gap-6 py-3 pr-5 bg-[var(--background-muted)] dark:bg-[var(--background-muted-dark)] border-r border-[var(--color-muted)] absolute left-0 top-0 bottom-0 z-10 transition-transform duration-500 w-56"
     :class="{ '-translate-x-full': hide }"
   >
     <div class="flex items-center gap-3 text-3xl ml-5">
@@ -58,7 +64,7 @@ const hide = ref<boolean>(false);
         <ToggleDarkMode />
 
         <div
-          @click="hide = true"
+          @click="emit('hide', true)"
           class="flex items-center gap-3 text-[var(--color-muted)] cursor-pointer"
         >
           <IconEyeOffOutline />
@@ -70,7 +76,7 @@ const hide = ref<boolean>(false);
     <FadeIn>
       <div
         v-show="hide"
-        @click="hide = false"
+        @click="emit('hide', false)"
         class="absolute bottom-12 -right-10 w-10 py-2 bg-[var(--accent)] flex items-center justify-center rounded-r-md cursor-pointer"
       >
         <IconEyeOutline class="text-xl" />
