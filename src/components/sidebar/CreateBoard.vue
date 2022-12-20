@@ -12,6 +12,8 @@ interface CreateBoardProps {}
 
 // const {} = defineProps<CreateBoardProps>();
 
+const emit = defineEmits(["created"]);
+
 const showModal = ref(false);
 
 const title = ref("");
@@ -54,6 +56,8 @@ function onSubmit() {
 
     title.value = "";
     color.value = "";
+
+    emit("created");
   }
 }
 

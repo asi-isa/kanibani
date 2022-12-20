@@ -9,6 +9,7 @@ import FadeIn from "@/transition/FadeIn.vue";
 import ToggleDarkMode from "./ToggleDarkMode.vue";
 import BoardTitle from "./sidebar/BoardTitle.vue";
 import CreateBoard from "./sidebar/CreateBoard.vue";
+import { ref } from "vue";
 
 interface SidebarProps {
   hide: boolean;
@@ -18,12 +19,18 @@ const { hide } = defineProps<SidebarProps>();
 
 const emit = defineEmits(["hide"]);
 
-const boardsAsString = localStorage.getItem("boards");
-const boards = JSON.parse(boardsAsString || "{}");
-const boardsAsArray: { id: string; title: string }[] = [];
+const boards = ref<{ id: string; title: string }[]>(getBoards());
 
-for (let key in boards) {
-  boardsAsArray.push({ id: key, title: boards[key].title });
+function getBoards() {
+  const boardsAsString = localStorage.getItem("boards");
+  const boardsAsObj = JSON.parse(boardsAsString || "{}");
+  const boardsAsArray: { id: string; title: string }[] = [];
+
+  for (let key in boardsAsObj) {
+    boardsAsArray.push({ id: key, title: boardsAsObj[key].title });
+  }
+
+  return boardsAsArray;
 }
 </script>
 
@@ -40,15 +47,15 @@ for (let key in boards) {
     <div class="h-full flex flex-col justify-between">
       <div class="flex flex-col gap-3">
         <p class="text-[var(--color-muted)] text-xs tracking-wider ml-5">
-          ALL BOARDS (7)
+          ALL BOARDS ({{ boards.length }})
         </p>
 
-        <div v-for="board in boardsAsArray" :id="board.id">
+        <div v-for="board in boards" :id="board.id">
           <!-- TODO selected logic -->
           <BoardTitle :name="board.title" :selected="true" />
         </div>
 
-        <CreateBoard />
+        <CreateBoard @created="boards = getBoards()" />
       </div>
 
       <div class="ml-4 flex flex-col gap-5">
