@@ -8,7 +8,7 @@ interface CreateBoardActiveProps {
 
 const { modelValue } = defineProps<CreateBoardActiveProps>();
 
-const emit = defineEmits(["update:modelValue", "submit"]);
+const emit = defineEmits(["update:modelValue", "submit", "blur"]);
 
 const inputRef = ref<HTMLInputElement | null>(null);
 
@@ -27,6 +27,7 @@ onMounted(() => {
       type="text"
       placeholder="e.g. Vuejs"
       required
+      @blur="emit('blur')"
       :value="modelValue"
       @input="
         emit('update:modelValue', ($event.target as HTMLInputElement).value)

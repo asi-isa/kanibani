@@ -2,19 +2,19 @@
 import FadeIn from "@/transition/FadeIn.vue";
 
 interface ValidationInfoProps {
-  validationInfo: string | null;
+  info: string | null;
 }
 
-const { validationInfo } = defineProps<ValidationInfoProps>();
+const { info } = defineProps<ValidationInfoProps>();
 </script>
 
 <template>
   <FadeIn>
     <div
-      v-if="validationInfo"
+      v-if="info"
       class="absolute right-0 top-0 bg-red-50 border border-red-400 rounded p-2"
     >
-      <p class="text-red-600 font-medium">{{ validationInfo }}</p>
+      <p class="text-red-600 font-medium">{{ info }}</p>
     </div>
   </FadeIn>
 </template>

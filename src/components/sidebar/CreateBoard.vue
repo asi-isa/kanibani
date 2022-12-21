@@ -38,5 +38,10 @@ function onSubmit() {
 
 <template>
   <CreateBoardInactive v-if="!showInput" @click="showInput = true" />
-  <CreateBoardActive v-else v-model="title" @submit="onSubmit" />
+  <CreateBoardActive
+    v-else
+    v-model="title"
+    @submit="onSubmit"
+    @blur="showInput = false"
+  />
 </template>

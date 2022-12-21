@@ -1,7 +1,18 @@
 <script setup lang="ts">
+import type { BoardType } from "../Sidebar.vue";
 import AddColumn from "./AddColumn.vue";
 import Column from "./Column.vue";
 import Task from "./Task.vue";
+
+interface KanbanProps {
+  board: BoardType | undefined;
+}
+
+const { board } = defineProps<KanbanProps>();
+
+function onCreated() {
+  console.log(localStorage.getItem("columns"));
+}
 </script>
 
 <template>
@@ -22,6 +33,7 @@ import Task from "./Task.vue";
       <Task />
     </Column>
 
-    <AddColumn />
+    <!-- TODO save id as property in board obj -->
+    <AddColumn :board-id="board?.id" @created="onCreated" />
   </div>
 </template>

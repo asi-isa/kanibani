@@ -1,17 +1,25 @@
 <script setup lang="ts">
+import { watch } from "vue";
 import ValidationInfo from "./ValidationInfo.vue";
 
 interface TextInputProps {
   name: string;
   placeholder: string;
-  validation: null | string;
+  isValid: boolean;
   modelValue: string;
 }
 
-const { name, placeholder, modelValue, validation } =
+const { name, placeholder, modelValue, isValid } =
   defineProps<TextInputProps>();
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "change:isValid"]);
+
+function onInput(e: Event) {
+  const value = (e.target as HTMLInputElement)!.value;
+
+  emit("update:modelValue", value);
+  emit("change:isValid", value !== "");
+}
 </script>
 
 <template>
@@ -23,11 +31,9 @@ const emit = defineEmits(["update:modelValue"]);
       type="text"
       :placeholder="placeholder"
       :value="modelValue"
-      @input="
-        emit('update:modelValue', ($event.target as HTMLInputElement)!.value)
-      "
+      @input="onInput"
     />
 
-    <ValidationInfo :validation-info="validation" />
+    <ValidationInfo :info="isValid ? null : `Please provide a ${name}`" />
   </div>
 </template>

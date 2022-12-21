@@ -4,12 +4,18 @@ import ValidationInfo from "./ValidationInfo.vue";
 
 interface ColorSelectionProps {
   modelValue: string;
-  validation: string | null;
+  isValid: boolean;
 }
 
-const { modelValue, validation } = defineProps<ColorSelectionProps>();
+const { modelValue, isValid } = defineProps<ColorSelectionProps>();
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "change:isValid"]);
+
+function onSelect(color: string) {
+  emit("update:modelValue", color);
+
+  emit("change:isValid", true);
+}
 </script>
 
 <template>
@@ -20,35 +26,35 @@ const emit = defineEmits(["update:modelValue"]);
       <Color
         color="bg-blue-500"
         :selected-color="modelValue"
-        @selected="(color) => emit('update:modelValue', color)"
+        @selected="onSelect"
       />
       <Color
         color="bg-slate-700"
         :selected-color="modelValue"
-        @selected="(color) => emit('update:modelValue', color)"
+        @selected="onSelect"
       />
       <Color
         color="bg-red-500"
         :selected-color="modelValue"
-        @selected="(color) => emit('update:modelValue', color)"
+        @selected="onSelect"
       />
       <Color
         color="bg-yellow-500"
         :selected-color="modelValue"
-        @selected="(color) => emit('update:modelValue', color)"
+        @selected="onSelect"
       />
       <Color
         color="bg-lime-500"
         :selected-color="modelValue"
-        @selected="(color) => emit('update:modelValue', color)"
+        @selected="onSelect"
       />
       <Color
         color="bg-cyan-500"
         :selected-color="modelValue"
-        @selected="(color) => emit('update:modelValue', color)"
+        @selected="onSelect"
       />
     </div>
 
-    <ValidationInfo :validation-info="validation" />
+    <ValidationInfo :info="isValid ? null : 'Please select a Color'" />
   </div>
 </template>
