@@ -47,8 +47,8 @@ const selectedBoard = ref<BoardType>();
     class="h-screen flex flex-col transition-all duration-500 overflow-hidden"
     :class="{ 'pl-56': !hideSidebar }"
   >
-    <Navbar />
-    <Kanban />
+    <Navbar :board="selectedBoard" />
+    <Kanban :board="selectedBoard" />
   </div>
 </template>
 
