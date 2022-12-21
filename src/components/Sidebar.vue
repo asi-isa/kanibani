@@ -19,13 +19,16 @@ const { hide } = defineProps<SidebarProps>();
 
 const emit = defineEmits(["hide"]);
 
-const boards = ref<{ id: string; title: string }[]>(getBoards());
+type BoardType = { id: string; title: string };
+
+const boards = ref<BoardType[]>(getBoards());
+const selectedBoard = ref<BoardType>();
 
 function getBoards() {
   const boardsAsString = localStorage.getItem("boards");
   const boardsAsObj = JSON.parse(boardsAsString || "{}");
-  const boardsAsArray: { id: string; title: string }[] = [];
 
+  const boardsAsArray: BoardType[] = [];
   for (let key in boardsAsObj) {
     boardsAsArray.push({ id: key, title: boardsAsObj[key].title });
   }
@@ -51,8 +54,11 @@ function getBoards() {
         </p>
 
         <div v-for="board in boards" :id="board.id">
-          <!-- TODO selected logic -->
-          <BoardTitle :name="board.title" :selected="true" />
+          <BoardTitle
+            :name="board.title"
+            @select="selectedBoard = board"
+            :selected="selectedBoard === board"
+          />
         </div>
 
         <CreateBoard @created="boards = getBoards()" />
