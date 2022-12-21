@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { onBeforeMount, onMounted, ref } from "vue";
+import { onBeforeMount, ref } from "vue";
 
 import Navbar from "./components/Navbar.vue";
-import Sidebar from "./components/Sidebar.vue";
+import Sidebar, { type BoardType } from "./components/Sidebar.vue";
 import Kanban from "./components/kanban/Kanban.vue";
 
 function setInitialThemeToLS() {
@@ -31,10 +31,17 @@ onBeforeMount(() => {
 });
 
 const hideSidebar = ref(false);
+
+const selectedBoard = ref<BoardType>();
 </script>
 
 <template>
-  <Sidebar :hide="hideSidebar" @hide="(state) => (hideSidebar = state)" />
+  <Sidebar
+    :hide="hideSidebar"
+    :selected-board="selectedBoard"
+    @select="(board) => (selectedBoard = board)"
+    @hide="(state) => (hideSidebar = state)"
+  />
 
   <div
     class="h-screen flex flex-col transition-all duration-500 overflow-hidden"

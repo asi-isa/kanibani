@@ -11,18 +11,18 @@ import ToggleDarkMode from "./ToggleDarkMode.vue";
 import BoardTitle from "./sidebar/BoardTitle.vue";
 import CreateBoard from "./sidebar/CreateBoard.vue";
 
+export type BoardType = { id: string; title: string };
+
 interface SidebarProps {
   hide: boolean;
+  selectedBoard: BoardType | undefined;
 }
 
-const { hide } = defineProps<SidebarProps>();
+const { hide, selectedBoard } = defineProps<SidebarProps>();
 
-const emit = defineEmits(["hide"]);
-
-type BoardType = { id: string; title: string };
+const emit = defineEmits(["hide", "select"]);
 
 const boards = ref<BoardType[]>(getBoards());
-const selectedBoard = ref<BoardType>();
 
 function getBoards() {
   const boardsAsString = localStorage.getItem("boards");
@@ -56,7 +56,7 @@ function getBoards() {
         <div v-for="board in boards" :id="board.id">
           <BoardTitle
             :name="board.title"
-            @select="selectedBoard = board"
+            @select="emit('select', board)"
             :selected="selectedBoard === board"
           />
         </div>
