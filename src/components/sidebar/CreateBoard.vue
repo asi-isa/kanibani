@@ -17,28 +17,23 @@ const emit = defineEmits(["created"]);
 const showModal = ref(false);
 
 const title = ref("");
-// TODO unnecessary
-const color = ref("");
 
 // TODO more generic form validation logic
-const formValidation = ref<{ title: string | null; color: string | null }>({
+const formValidation = ref<{ title: string | null }>({
   title: null,
-  color: null,
 });
 
 function validateFormInput() {
   formValidation.value.title = !title.value.trim()
     ? "Please provide a title."
     : null;
-
-  formValidation.value.color = !color.value ? "Please select a color." : null;
 }
 
 function onSubmit() {
   validateFormInput();
 
   // form input is valid
-  if (title.value.trim() && color.value) {
+  if (title.value.trim()) {
     const previousBoardsAsStr = localStorage.getItem("boards");
 
     const previousBoards = JSON.parse(previousBoardsAsStr || "{}");
@@ -47,7 +42,7 @@ function onSubmit() {
 
     const newBoards = {
       ...previousBoards,
-      [id]: { title: title.value, color: color.value },
+      [id]: { title: title.value },
     };
 
     localStorage.setItem("boards", JSON.stringify(newBoards));
@@ -55,7 +50,6 @@ function onSubmit() {
     showModal.value = false;
 
     title.value = "";
-    color.value = "";
 
     emit("created");
   }
@@ -65,10 +59,6 @@ watch(title, () => {
   formValidation.value.title = !title.value.trim()
     ? "Please provide a title."
     : null;
-});
-
-watch(color, () => {
-  formValidation.value.color = !color.value ? "Please provide a color." : null;
 });
 </script>
 
@@ -89,8 +79,6 @@ watch(color, () => {
         placeholder="e.g. Marketing Plan"
         v-model="title"
       />
-
-      <ColorSelection v-model="color" :validation="formValidation.color" />
 
       <Btn title="Create Board" @click="onSubmit" />
     </div>

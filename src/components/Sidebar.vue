@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import {
   IconDotsTriangle,
   IconEyeOffOutline,
@@ -9,7 +10,6 @@ import FadeIn from "@/transition/FadeIn.vue";
 import ToggleDarkMode from "./ToggleDarkMode.vue";
 import BoardTitle from "./sidebar/BoardTitle.vue";
 import CreateBoard from "./sidebar/CreateBoard.vue";
-import { ref } from "vue";
 
 interface SidebarProps {
   hide: boolean;
