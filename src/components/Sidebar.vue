@@ -18,7 +18,7 @@ interface SidebarProps {
   selectedBoard: BoardType | undefined;
 }
 
-const { hide, selectedBoard } = defineProps<SidebarProps>();
+const props = defineProps<SidebarProps>();
 
 const emit = defineEmits(["hide", "select"]);
 
@@ -30,17 +30,23 @@ function getBoards() {
 
   const boardsAsArray: BoardType[] = [];
   for (let key in boardsAsObj) {
-    boardsAsArray.push({ id: key, title: boardsAsObj[key].title });
+    const board = boardsAsObj[key];
+    boardsAsArray.push(board);
   }
 
   return boardsAsArray;
+}
+
+function onBoardCreated(board: BoardType) {
+  boards.value = getBoards();
+  emit("select", board);
 }
 </script>
 
 <template>
   <div
     class="h-screen flex flex-col gap-6 py-3 pr-5 bg-[var(--background-muted)] dark:bg-[var(--background-muted-dark)] border-r border-[var(--color-muted)] absolute left-0 top-0 bottom-0 z-10 transition-transform duration-500 w-56"
-    :class="{ '-translate-x-full': hide }"
+    :class="{ '-translate-x-full': props.hide }"
   >
     <div class="flex items-center gap-3 text-3xl ml-5">
       <IconDotsTriangle class="text-[var(--accent)]" />
@@ -56,12 +62,12 @@ function getBoards() {
         <div v-for="board in boards" :id="board.id">
           <BoardTitle
             :name="board.title"
+            :is-selected="props.selectedBoard?.id === board.id"
             @select="emit('select', board)"
-            :selected="selectedBoard === board"
           />
         </div>
 
-        <CreateBoard @created="boards = getBoards()" />
+        <CreateBoard @created="onBoardCreated" />
       </div>
 
       <div class="ml-4 flex flex-col gap-5">
@@ -79,7 +85,7 @@ function getBoards() {
 
     <FadeIn>
       <div
-        v-show="hide"
+        v-show="props.hide"
         @click="emit('hide', false)"
         class="absolute bottom-12 -right-10 w-10 py-2 bg-[var(--accent)] flex items-center justify-center rounded-r-md cursor-pointer"
       >

@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { ref, watch } from "vue";
+
 import type { BoardType } from "../Sidebar.vue";
-import AddColumn from "./AddColumn.vue";
+import AddColumn, { type ColumnType } from "./AddColumn.vue";
 import Column from "./Column.vue";
 import Task from "./Task.vue";
 
@@ -8,32 +10,57 @@ interface KanbanProps {
   board: BoardType | undefined;
 }
 
-const { board } = defineProps<KanbanProps>();
+const props = defineProps<KanbanProps>();
 
-function onCreated() {
-  console.log(localStorage.getItem("columns"));
+const columns = ref<ColumnType[]>(getColumns());
+const boardColumns = ref<ColumnType[]>();
+
+function getColumns() {
+  const columnsAsString = localStorage.getItem("columns");
+  const columnsAsObj = JSON.parse(columnsAsString || "{}");
+
+  const columnsAsArray: ColumnType[] = [];
+  for (let key in columnsAsObj) {
+    const column = columnsAsObj[key];
+    columnsAsArray.push(column);
+  }
+
+  return columnsAsArray;
 }
+
+function getBoardColumns() {
+  return columns.value.filter((c) => c.boardId === props.board?.id);
+}
+
+function onBoardChanged() {
+  boardColumns.value = getBoardColumns();
+}
+
+function onColumnCreated() {
+  columns.value = getColumns();
+  boardColumns.value = getBoardColumns();
+}
+
+watch(() => props.board, onBoardChanged);
 </script>
 
 <template>
   <div
-    class="bg-[var(--background)] dark:bg-[var(--background-dark)] p-4 flex gap-4 w-screen h-fit overflow-auto"
+    class="bg-[var(--background)] dark:bg-[var(--background-dark)] transition-colors duration-500 p-4 flex gap-4 w-screen h-fit overflow-auto"
   >
-    <Column name="TODO" color="bg-orange-400">
-      <Task />
-      <Task />
-      <Task />
-      <Task />
-    </Column>
+    <template v-for="board in boardColumns">
+      <Column :name="board.title" :color="board.color">
+        <Task />
+        <Task />
+        <Task />
+        <Task />
+      </Column>
+    </template>
 
-    <Column name="DOING" color="bg-blue-400">
-      <Task />
-      <Task />
-      <Task />
-      <Task />
-    </Column>
-
-    <!-- TODO save id as property in board obj -->
-    <AddColumn :board-id="board?.id" @created="onCreated" />
+    <AddColumn
+      v-if="props.board"
+      :board="props.board"
+      @created="onColumnCreated"
+    />
   </div>
 </template>

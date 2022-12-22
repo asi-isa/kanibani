@@ -7,6 +7,10 @@ interface NavbarProps {
 }
 
 const { board } = defineProps<NavbarProps>();
+
+function onClicked() {
+  console.log("clicked");
+}
 </script>
 
 <template>
@@ -20,6 +24,8 @@ const { board } = defineProps<NavbarProps>();
     <div class="flex items-center gap-2">
       <div
         class="flex items-center gap-2 bg-[var(--accent)] py-2 px-4 rounded-3xl cursor-pointer"
+        :class="[{ 'opacity-0': !board }, { 'pointer-events-none': !board }]"
+        @click="onClicked"
       >
         <IconPlus class="text-xl" />
         <p class="font-bold">Add New Task</p>

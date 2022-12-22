@@ -27,7 +27,6 @@ onMounted(() => {
       type="text"
       placeholder="e.g. Vuejs"
       required
-      @blur="emit('blur')"
       :value="modelValue"
       @input="
         emit('update:modelValue', ($event.target as HTMLInputElement).value)

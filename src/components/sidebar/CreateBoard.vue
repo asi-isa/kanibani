@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import CreateBoardInactive from "./CreateBoardInactive.vue";
 import CreateBoardActive from "./CreateBoardActive.vue";
+import type { BoardType } from "../Sidebar.vue";
 
 const emit = defineEmits(["created"]);
 
@@ -20,9 +21,11 @@ function onSubmit() {
 
     const id = uuidv4();
 
+    const board: BoardType = { id, title: title.value };
+
     const newBoards = {
       ...previousBoards,
-      [id]: { title: title.value },
+      [id]: board,
     };
 
     localStorage.setItem("boards", JSON.stringify(newBoards));
@@ -31,7 +34,7 @@ function onSubmit() {
 
     title.value = "";
 
-    emit("created");
+    emit("created", board);
   }
 }
 </script>

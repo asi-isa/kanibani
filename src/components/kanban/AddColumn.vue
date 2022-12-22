@@ -1,18 +1,27 @@
 <script setup lang="ts">
-import { IconPlus } from "@iconify-prerendered/vue-mdi";
 import { ref } from "vue";
 import { v4 as uuidv4 } from "uuid";
+import { IconPlus } from "@iconify-prerendered/vue-mdi";
 
 import ColorSelection from "../form/ColorSelection.vue";
 import TextInput from "../form/TextInput.vue";
 import Btn from "../form/Btn.vue";
 import Modal from "../util/Modal.vue";
+import type { BoardType } from "../Sidebar.vue";
+
+export type ColumnType = {
+  id: string;
+  boardId: string | undefined;
+  date: Date;
+  title: string;
+  color: string;
+};
 
 interface AddColumnProps {
-  boardId: string | undefined;
+  board: BoardType | undefined;
 }
 
-const { boardId } = defineProps<AddColumnProps>();
+const props = defineProps<AddColumnProps>();
 
 const emit = defineEmits(["created"]);
 
@@ -51,10 +60,9 @@ function onSubmit() {
     const title = formInputs.value.title.value;
     const color = formInputs.value.color.value;
 
-    console.log("boardid", boardId);
-
     const column = {
-      boardId,
+      id,
+      boardId: props.board?.id,
       date,
       title,
       color,
@@ -83,7 +91,7 @@ function onSubmit() {
   <div class="flex flex-col gap-4">
     <div><p class="opacity-0">just for ui purposes</p></div>
     <div
-      class="bg-[var(--background-secondary)] dark:bg-[var(--background-secondary-dark)] w-64 h-full flex items-center justify-center rounded-md cursor-pointer"
+      class="bg-[var(--background-secondary)] dark:bg-[var(--background-secondary-dark)] w-64 h-full p-4 flex items-center justify-center rounded-md cursor-pointer"
       @click="showForm = true"
     >
       <div class="flex gap-2 items-center">
