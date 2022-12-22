@@ -12,10 +12,9 @@ interface KanbanProps {
 
 const props = defineProps<KanbanProps>();
 
-const columns = ref<ColumnType[]>(getColumns());
-const boardColumns = ref<ColumnType[]>();
+const columns = ref<ColumnType[]>();
 
-function getColumns() {
+function getAllColumns() {
   const columnsAsString = localStorage.getItem("columns");
   const columnsAsObj = JSON.parse(columnsAsString || "{}");
 
@@ -28,13 +27,12 @@ function getColumns() {
   return columnsAsArray;
 }
 
-function getBoardColumns() {
-  return columns.value.filter((c) => c.boardId === props.board?.id);
+function getColumns() {
+  return getAllColumns().filter((c) => c.boardId === props.board?.id);
 }
 
 function updateColumns() {
   columns.value = getColumns();
-  boardColumns.value = getBoardColumns();
 }
 
 watch(() => props.board, updateColumns);
@@ -44,8 +42,8 @@ watch(() => props.board, updateColumns);
   <div
     class="bg-[var(--background)] dark:bg-[var(--background-dark)] transition-colors duration-500 p-4 flex gap-4 w-screen h-fit overflow-auto"
   >
-    <template v-for="board in boardColumns">
-      <Column :name="board.title" :color="board.color">
+    <template v-for="column in columns">
+      <Column :name="column.title" :color="column.color">
         <Task />
         <Task />
         <Task />
