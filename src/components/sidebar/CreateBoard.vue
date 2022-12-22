@@ -12,6 +12,28 @@ const showInput = ref(false);
 
 const title = ref("");
 
+function createColumn(title: string, color: string, boardId: string) {
+  const id = uuidv4();
+  const date = new Date();
+
+  const column = {
+    id,
+    boardId,
+    date,
+    title,
+    color,
+  };
+
+  const previousColumns = JSON.parse(localStorage.getItem("columns") ?? "{}");
+
+  const columns = {
+    ...previousColumns,
+    [id]: column,
+  };
+
+  localStorage.setItem("columns", JSON.stringify(columns));
+}
+
 function onSubmit() {
   // form input is valid
   if (title.value.trim()) {
@@ -29,6 +51,11 @@ function onSubmit() {
     };
 
     localStorage.setItem("boards", JSON.stringify(newBoards));
+
+    // create mandatory columns for every new board
+    createColumn("TODO", "bg-indigo-600", id);
+    createColumn("DOING", "bg-pink-600", id);
+    createColumn("DONE", "bg-teal-800", id);
 
     showInput.value = false;
 

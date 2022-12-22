@@ -45,7 +45,7 @@ function onBoardCreated(board: BoardType) {
 
 <template>
   <div
-    class="h-screen flex flex-col gap-6 py-3 pr-5 bg-[var(--background-muted)] dark:bg-[var(--background-muted-dark)] border-r border-[var(--color-muted)] absolute left-0 top-0 bottom-0 z-10 transition-transform duration-500 w-56"
+    class="h-screen flex flex-col gap-6 py-3 pr-5 bg-[var(--background-muted)] dark:bg-[var(--background-muted-dark)] border-r border-[var(--color-muted)] absolute left-0 top-0 bottom-0 z-10 transition-transform duration-500 w-60"
     :class="{ '-translate-x-full': props.hide }"
   >
     <div class="flex items-center gap-3 text-3xl ml-5">
@@ -53,7 +53,7 @@ function onBoardCreated(board: BoardType) {
       <p class="font-bold">kanibani</p>
     </div>
 
-    <div class="h-full flex flex-col justify-between">
+    <div class="h-full overflow-y-auto flex flex-col justify-between">
       <div class="flex flex-col gap-3">
         <p class="text-[var(--color-muted)] text-xs tracking-wider ml-5">
           ALL BOARDS ({{ boards.length }})

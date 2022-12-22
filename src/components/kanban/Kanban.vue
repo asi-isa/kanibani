@@ -32,16 +32,12 @@ function getBoardColumns() {
   return columns.value.filter((c) => c.boardId === props.board?.id);
 }
 
-function onBoardChanged() {
-  boardColumns.value = getBoardColumns();
-}
-
-function onColumnCreated() {
+function updateColumns() {
   columns.value = getColumns();
   boardColumns.value = getBoardColumns();
 }
 
-watch(() => props.board, onBoardChanged);
+watch(() => props.board, updateColumns);
 </script>
 
 <template>
@@ -60,7 +56,7 @@ watch(() => props.board, onBoardChanged);
     <AddColumn
       v-if="props.board"
       :board="props.board"
-      @created="onColumnCreated"
+      @created="updateColumns"
     />
   </div>
 </template>
