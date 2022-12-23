@@ -106,6 +106,7 @@ function onSubmit() {
       <TextInput
         name="Title"
         placeholder="e.g. TODO"
+        autofocus
         v-model="formInputs.title.value"
         :is-valid="formInputs.title.isValid"
         @change:is-valid="
