@@ -20,6 +20,7 @@ const props = defineProps<SubtasksProps>();
 
 const emit = defineEmits(["update:modelValue"]);
 
+// TODO No duplicate data storage
 const subtasks = ref<
   {
     value: SubtaskType;

@@ -42,7 +42,7 @@ onMounted(() => {
 
     <input
       ref="inputRef"
-      class="border border-[var(--color-muted)] rounded-sm py-2 px-3 bg-inherit placeholder:text-[var(--color-muted-dark)]"
+      class="border border-[var(--color-muted)] dark:border-[var(--color-muted-dark)] rounded-md py-2 px-3 bg-inherit placeholder:text-[var(--color-muted-dark)]"
       type="text"
       :placeholder="placeholder"
       :value="modelValue"

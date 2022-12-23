@@ -23,7 +23,7 @@ function onInput(e: Event) {
   <div class="flex items-center gap-3 relative">
     <input
       ref="inputRef"
-      class="border border-[var(--color-muted)] rounded-sm py-1 px-3 w-full bg-inherit placeholder:text-[var(--color-muted-dark)]"
+      class="border border-[var(--color-muted)] dark:border-[var(--color-muted-dark)] rounded-md py-2 px-3 w-full bg-inherit placeholder:text-[var(--color-muted-dark)]"
       type="text"
       placeholder="Some smaller task"
       :value="props.modelValue"

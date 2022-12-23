@@ -9,6 +9,7 @@ import Textarea from "../form/Textarea.vue";
 import Btn from "../form/Btn.vue";
 import Modal from "../util/Modal.vue";
 import Subtasks from "../form/subtasks/Subtasks.vue";
+import Dropdown from "../form/Dropdown.vue";
 
 type TaskType = {
   id: string;
@@ -140,6 +141,12 @@ watch(
       <Subtasks
         v-model="formInputs.subtasks.value"
         :is-valid="formInputs.subtasks.isValid"
+      />
+
+      <Dropdown
+        title="Status"
+        :board="props.board"
+        v-model="formInputs.columnId.value"
       />
 
       <Btn title="Create Tasks" @click.prevent="onSubmit" />

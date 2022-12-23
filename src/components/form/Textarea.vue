@@ -25,7 +25,7 @@ function onInput(ev: Event) {
     <label :for="name" class="font-medium">{{ name }}</label>
 
     <textarea
-      class="border border-[var(--color-muted)] rounded-sm py-2 px-3 bg-inherit placeholder:text-[var(--color-muted-dark)] resize-none"
+      class="border border-[var(--color-muted)] dark:border-[var(--color-muted-dark)] rounded-md py-2 px-3 bg-inherit placeholder:text-[var(--color-muted-dark)] resize-none"
       :placeholder="placeholder"
       :value="modelValue"
       @input="onInput"
