@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { v4 as uuidv4 } from "uuid";
 import { IconPlus } from "@iconify-prerendered/vue-mdi";
 
@@ -8,12 +8,12 @@ import TextInput from "../form/TextInput.vue";
 import Textarea from "../form/Textarea.vue";
 import Btn from "../form/Btn.vue";
 import Modal from "../util/Modal.vue";
+import Subtasks from "../form/subtasks/Subtasks.vue";
 
-type SubtaskType = {
+type TaskType = {
   id: string;
   columnId: string;
-  title: string;
-  isFinished: string;
+  // ...
 };
 
 interface AddTaskProps {
@@ -91,6 +91,14 @@ function onSubmit() {
     emit("created");
   }
 }
+
+watch(
+  formInputs,
+  () => {
+    console.log("formInputs", formInputs.value);
+  },
+  { deep: true }
+);
 </script>
 
 <template>
@@ -127,6 +135,11 @@ function onSubmit() {
         @change:is-valid="
           (state: boolean) => (formInputs.description.isValid = state)
         "
+      />
+
+      <Subtasks
+        v-model="formInputs.subtasks.value"
+        :is-valid="formInputs.subtasks.isValid"
       />
 
       <Btn title="Create Tasks" @click.prevent="onSubmit" />
