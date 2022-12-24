@@ -8,13 +8,15 @@ import TextInput from "../form/TextInput.vue";
 import Textarea from "../form/Textarea.vue";
 import Btn from "../form/Btn.vue";
 import Modal from "../util/Modal.vue";
-import Subtasks from "../form/subtasks/Subtasks.vue";
+import Subtasks, { type SubtaskType } from "../form/subtasks/Subtasks.vue";
 import Dropdown from "../form/Dropdown.vue";
 
-type TaskType = {
+export type TaskType = {
   id: string;
+  title: string;
+  description: string;
+  subtasks: SubtaskType[];
   columnId: string;
-  // ...
 };
 
 interface AddTaskProps {
@@ -58,15 +60,13 @@ function onSubmit() {
 
   if (formIsValid) {
     const id = uuidv4();
-    const date = new Date();
     const title = formInputs.value.title.value;
     const description = formInputs.value.description.value;
     const subtasks = formInputs.value.subtasks.value;
     const columnId = formInputs.value.columnId.value;
 
-    const task = {
+    const task: TaskType = {
       id,
-      date,
       title,
       description,
       subtasks,
@@ -77,7 +77,7 @@ function onSubmit() {
 
     const tasks = {
       ...previousTasks,
-      task,
+      [id]: task,
     };
 
     localStorage.setItem("tasks", JSON.stringify(tasks));

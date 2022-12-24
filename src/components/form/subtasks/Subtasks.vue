@@ -6,7 +6,7 @@ import SubtaskInput from "./SubtaskInput.vue";
 import Btn from "../Btn.vue";
 import ValidationInfo from "../ValidationInfo.vue";
 
-type SubtaskType = {
+export type SubtaskType = {
   id: string;
   title: string;
   isFinished: boolean;

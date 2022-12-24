@@ -67,7 +67,7 @@ watchEffect(() => {
           class="text-[var(--color-dark)] p-3 hover:bg-[var(--accent)] dark:hover:text-[var(--color-dark)] rounded-md"
           :class="[
             {
-              'bg-[var(--accent)]': column.id === selectedColumn.id,
+              'bg-[var(--accent-66)]': column.id === selectedColumn.id,
             },
             column.id === selectedColumn.id
               ? 'dark:text-[var(--color-dark)]'

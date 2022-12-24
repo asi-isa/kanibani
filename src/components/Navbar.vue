@@ -9,6 +9,8 @@ interface NavbarProps {
 
 const props = defineProps<NavbarProps>();
 
+const emit = defineEmits(["taskCreated"]);
+
 function onClicked() {
   console.log("clicked");
 }
@@ -23,7 +25,7 @@ function onClicked() {
     </p>
 
     <div class="flex items-center gap-2">
-      <AddTask :board="props.board" />
+      <AddTask :board="props.board" @created="emit('taskCreated')" />
 
       <IconDotsVertical
         class="text-xl text-[var(--color-muted-dark)] cursor-pointer"

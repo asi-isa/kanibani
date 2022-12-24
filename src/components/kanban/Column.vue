@@ -1,23 +1,31 @@
 <script setup lang="ts">
+import { ref, watch, watchEffect } from "vue";
+
+import Task from "./Task.vue";
+import type { ColumnType } from "./AddColumn.vue";
+import type { TaskType } from "./AddTask.vue";
+
 // TODO id as prop => fetch tasks
 interface ColumnProps {
-  name: string;
-  color: string;
+  column: ColumnType;
+  tasks: TaskType[];
 }
-const { name, color } = defineProps<ColumnProps>();
+const props = defineProps<ColumnProps>();
 </script>
 
 <template>
   <div class="flex flex-col gap-4">
     <div class="flex gap-2 items-center">
-      <div class="w-3 h-3 rounded-full" :class="color"></div>
+      <div class="w-3 h-3 rounded-full" :class="props.column.color"></div>
       <p class="tracking-wider text-[var(--color-muted)] uppercase">
-        {{ name }} (7)
+        {{ props.column.title }} ({{ props.tasks.length }})
       </p>
     </div>
 
     <div class="flex flex-col gap-3">
-      <slot></slot>
+      <template v-for="task in props.tasks" :id="task.id">
+        <Task :task="task" />
+      </template>
     </div>
   </div>
 </template>
