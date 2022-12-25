@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref, watchEffect } from "vue";
+import { ref, watchEffect } from "vue";
 import { IconChevronDown } from "@iconify-prerendered/vue-mdi";
-import type { ColumnType } from "../kanban/AddColumn.vue";
-import type { BoardType } from "../Sidebar.vue";
+
+export type OptionType = { label: string; value: string };
 
 interface DropdownProps {
-  title: string;
-  board: BoardType | undefined;
+  options: OptionType[] | undefined;
+  default: OptionType | undefined;
 }
 
 const props = defineProps<DropdownProps>();
@@ -14,34 +14,15 @@ const props = defineProps<DropdownProps>();
 const emit = defineEmits(["update:modelValue"]);
 
 const showDropdown = ref(false);
-const columns = ref(getColumns());
-const selectedColumn = ref(columns.value[0]);
+const selectedOption = ref(props.default);
 
-// no duplication
-function getAllColumns() {
-  const columnsAsString = localStorage.getItem("columns");
-  const columnsAsObj = JSON.parse(columnsAsString || "{}");
-
-  const columnsAsArray: ColumnType[] = [];
-  for (let key in columnsAsObj) {
-    const column = columnsAsObj[key];
-    columnsAsArray.push(column);
-  }
-
-  return columnsAsArray;
-}
-
-function getColumns() {
-  return getAllColumns().filter((c) => c.boardId === props.board?.id);
-}
-
-function onSelect(column: ColumnType) {
+function onSelect(option: OptionType) {
   showDropdown.value = false;
-  selectedColumn.value = column;
+  selectedOption.value = option;
 }
 
 watchEffect(() => {
-  emit("update:modelValue", selectedColumn.value.id);
+  emit("update:modelValue", selectedOption.value?.value);
 });
 </script>
 
@@ -50,7 +31,7 @@ watchEffect(() => {
     class="flex justify-between items-center border border-[var(--color-muted)] dark:border-[var(--color-muted-dark)] rounded-md py-2 px-3 w-full bg-inherit cursor-pointer"
     @click.self="showDropdown = true"
   >
-    <p>{{ selectedColumn.title }}</p>
+    <p>{{ selectedOption?.label }}</p>
 
     <IconChevronDown
       class="text-lg text-[var(--accent)]"
@@ -61,20 +42,20 @@ watchEffect(() => {
       v-if="showDropdown"
       class="absolute top-0 left-0 right-0 z-10 flex flex-col rounded-md bg-[var(--color)] dark:bg-[var(--color-dark)]"
     >
-      <template v-for="column in columns" :id="column.id">
+      <template v-for="option in props.options" :id="option.value">
         <p
-          @click.self="onSelect(column)"
+          @click.self="onSelect(option)"
           class="text-[var(--color-dark)] p-3 hover:bg-[var(--accent)] dark:hover:text-[var(--color-dark)] rounded-md"
           :class="[
             {
-              'bg-[var(--accent-66)]': column.id === selectedColumn.id,
+              'bg-[var(--accent-66)]': option.value === selectedOption?.value,
             },
-            column.id === selectedColumn.id
+            option.value === selectedOption?.value
               ? 'dark:text-[var(--color-dark)]'
               : 'dark:text-[var(--color)]',
           ]"
         >
-          {{ column.title }}
+          {{ option.label }}
         </p>
       </template>
     </div>

@@ -88,7 +88,7 @@ function onSubmit() {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-4 w-64">
     <div><p class="opacity-0">just for ui purposes</p></div>
     <div
       class="bg-[var(--background-secondary)] dark:bg-[var(--background-secondary-dark)] w-64 h-full p-4 flex items-center justify-center rounded-md cursor-pointer"

@@ -8,15 +8,16 @@ import ValidationInfo from "../ValidationInfo.vue";
 
 export type SubtaskType = {
   id: string;
+  taskId: string;
   title: string;
   isFinished: boolean;
 };
 
-interface SubtasksProps {
+interface SubtasksInputProps {
   isValid: boolean;
 }
 
-const props = defineProps<SubtasksProps>();
+const props = defineProps<SubtasksInputProps>();
 
 const emit = defineEmits(["update:modelValue"]);
 
@@ -26,11 +27,16 @@ const subtasks = ref<
     value: SubtaskType;
     isValid: boolean;
   }[]
->([{ value: { id: uuidv4(), title: "", isFinished: false }, isValid: true }]);
+>([
+  {
+    value: { id: uuidv4(), taskId: "", title: "", isFinished: false },
+    isValid: true,
+  },
+]);
 
 function addSubtask() {
   const subtask = {
-    value: { id: uuidv4(), title: "", isFinished: false },
+    value: { id: uuidv4(), taskId: "", title: "", isFinished: false },
     isValid: true,
   };
   subtasks.value.push(subtask);

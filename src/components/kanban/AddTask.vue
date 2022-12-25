@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { v4 as uuidv4 } from "uuid";
 import { IconPlus } from "@iconify-prerendered/vue-mdi";
 
@@ -8,14 +8,16 @@ import TextInput from "../form/TextInput.vue";
 import Textarea from "../form/Textarea.vue";
 import Btn from "../form/Btn.vue";
 import Modal from "../util/Modal.vue";
-import Subtasks, { type SubtaskType } from "../form/subtasks/Subtasks.vue";
-import Dropdown from "../form/Dropdown.vue";
+import Subtasksinput, {
+  type SubtaskType,
+} from "../form/subtasks/SubtasksInput.vue";
+import Dropdown, { type OptionType } from "../form/Dropdown.vue";
+import type { ColumnType } from "./AddColumn.vue";
 
 export type TaskType = {
   id: string;
   title: string;
   description: string;
-  subtasks: SubtaskType[];
   columnId: string;
 };
 
@@ -29,12 +31,29 @@ const emit = defineEmits(["created"]);
 
 const showForm = ref(false);
 
-const formInputs = ref({
+// isValid property => form validation
+type TaskFormInput = {
+  title: { value: string; isValid: boolean };
+  description: { value: string; isValid: boolean };
+  // every subtask has its own isValid form validation property
+  subtasks: {
+    value: { value: SubtaskType; isValid: boolean }[];
+    isValid: boolean;
+  };
+  columnId: { value: string; isValid: boolean };
+};
+
+const formInputInitValues = {
   title: { value: "", isValid: true },
   description: { value: "", isValid: true },
-  subtasks: { value: [], isValid: true },
+  subtasks: {
+    value: [] as { value: SubtaskType; isValid: boolean }[],
+    isValid: true,
+  },
   columnId: { value: "", isValid: true },
-});
+};
+
+const formInputs = ref<TaskFormInput>(formInputInitValues);
 
 function formValidation() {
   let formIsValid = true;
@@ -62,14 +81,13 @@ function onSubmit() {
     const id = uuidv4();
     const title = formInputs.value.title.value;
     const description = formInputs.value.description.value;
-    const subtasks = formInputs.value.subtasks.value;
+
     const columnId = formInputs.value.columnId.value;
 
     const task: TaskType = {
       id,
       title,
       description,
-      subtasks,
       columnId,
     };
 
@@ -82,12 +100,29 @@ function onSubmit() {
 
     localStorage.setItem("tasks", JSON.stringify(tasks));
 
+    // dont save form validation property isValid
+    // add taskId to every subtask
+    const subtasks = formInputs.value.subtasks.value.map((item) => ({
+      ...item.value,
+      taskId: id,
+    }));
+
+    subtasks.forEach((subtask) => {
+      const previousSubTasks = JSON.parse(
+        localStorage.getItem("subtasks") ?? "{}"
+      );
+
+      const subtasks = {
+        ...previousSubTasks,
+        [subtask.id]: subtask,
+      };
+
+      localStorage.setItem("subtasks", JSON.stringify(subtasks));
+    });
+
     showForm.value = false;
 
-    formInputs.value.title.value = "";
-    formInputs.value.description.value = "";
-    formInputs.value.subtasks.value = [];
-    formInputs.value.columnId.value = "";
+    formInputs.value = formInputInitValues;
 
     emit("created");
   }
@@ -99,6 +134,40 @@ watch(
     console.log("formInputs", formInputs.value);
   },
   { deep: true }
+);
+
+const columns = ref(getColumns());
+
+function getAllColumns() {
+  const columnsAsString = localStorage.getItem("columns");
+  const columnsAsObj = JSON.parse(columnsAsString || "{}");
+
+  const columnsAsArray: ColumnType[] = [];
+  for (let key in columnsAsObj) {
+    const column = columnsAsObj[key];
+    columnsAsArray.push(column);
+  }
+
+  return columnsAsArray;
+}
+
+function getColumns() {
+  return getAllColumns().filter((c) => c.boardId === props.board?.id);
+}
+
+const dropdownOptions = ref<OptionType[]>();
+const dropdownOptionDefault = ref<OptionType>();
+
+watch(
+  () => props.board,
+  () => {
+    dropdownOptions.value = getColumns().map((c) => ({
+      value: c.id,
+      label: c.title,
+    }));
+
+    dropdownOptionDefault.value = dropdownOptions.value[0];
+  }
 );
 </script>
 
@@ -138,14 +207,14 @@ watch(
         "
       />
 
-      <Subtasks
+      <Subtasksinput
         v-model="formInputs.subtasks.value"
         :is-valid="formInputs.subtasks.isValid"
       />
 
       <Dropdown
-        title="Status"
-        :board="props.board"
+        :options="dropdownOptions"
+        :default="dropdownOptionDefault"
         v-model="formInputs.columnId.value"
       />
 
