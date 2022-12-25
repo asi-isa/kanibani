@@ -15,7 +15,7 @@ const emit = defineEmits(["change"]);
 function toggleIsFinished() {
   const subtask = getFromLS<SubtaskType>(
     "subtasks",
-    (t) => t.id === props.subtask.id
+    (st) => st.id === props.subtask.id
   )[0];
 
   const alteredSubtask: SubtaskType = {
@@ -23,11 +23,14 @@ function toggleIsFinished() {
     isFinished: !subtask.isFinished,
   };
 
-  console.log("alteredSubtask", alteredSubtask);
+  const previousSubtasks = JSON.parse(localStorage.getItem("subtasks") ?? "{}");
 
   localStorage.setItem(
     "subtasks",
-    JSON.stringify({ [alteredSubtask.id]: alteredSubtask })
+    JSON.stringify({
+      ...previousSubtasks,
+      [alteredSubtask.id]: alteredSubtask,
+    })
   );
 
   emit("change");
