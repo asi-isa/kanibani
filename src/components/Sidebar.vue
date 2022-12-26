@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import {
   IconDotsTriangle,
   IconEyeOffOutline,
@@ -10,6 +10,7 @@ import FadeIn from "@/transition/FadeIn.vue";
 import ToggleDarkMode from "./ToggleDarkMode.vue";
 import BoardTitle from "./sidebar/BoardTitle.vue";
 import CreateBoard from "./sidebar/CreateBoard.vue";
+import getFromLS from "@/utils/ls/getFromLS";
 
 export type BoardType = { id: string; title: string };
 
@@ -25,20 +26,17 @@ const emit = defineEmits(["hide", "select"]);
 const boards = ref<BoardType[]>(getBoards());
 
 function getBoards() {
-  const boardsAsString = localStorage.getItem("boards");
-  const boardsAsObj = JSON.parse(boardsAsString || "{}");
-
-  const boardsAsArray: BoardType[] = [];
-  for (let key in boardsAsObj) {
-    const board = boardsAsObj[key];
-    boardsAsArray.push(board);
-  }
-
-  return boardsAsArray;
+  return getFromLS<BoardType>("boards");
 }
 
-function onBoardCreated(board: BoardType) {
+function updateBoards() {
   boards.value = getBoards();
+}
+
+watch(() => props.selectedBoard, updateBoards);
+
+function onBoardCreated(board: BoardType) {
+  updateBoards();
   emit("select", board);
 }
 </script>

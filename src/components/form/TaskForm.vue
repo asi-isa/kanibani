@@ -15,9 +15,8 @@ import type { ColumnType } from "../kanban/AddColumn.vue";
 import type { BoardType } from "../Sidebar.vue";
 
 interface TaskFormProps {
+  board?: BoardType;
   default?: TaskType;
-  dropdownOptions?: OptionType[];
-  dropdownDefault?: OptionType;
 }
 
 const props = defineProps<TaskFormProps>();
@@ -127,13 +126,9 @@ function onSubmit() {
 }
 
 function getDropdownOptions() {
-  const boardId = getFromLS<ColumnType>(
-    "columns",
-    (c) => c.id === props.default?.columnId
-  )[0].boardId;
   const columns = getFromLS<ColumnType>(
     "columns",
-    (c) => c.boardId === boardId
+    (c) => c.boardId === props.board!.id
   );
   const dropdownOptions: OptionType[] = columns.map((c) => ({
     value: c.id,
@@ -143,22 +138,22 @@ function getDropdownOptions() {
   return dropdownOptions;
 }
 
-const dropdownOptions = ref<OptionType[]>(
-  props.dropdownOptions ?? getDropdownOptions()
-);
+const dropdownOptions = ref<OptionType[]>(getDropdownOptions());
 
 function getDropdownDefault() {
-  const column = getFromLS<ColumnType>(
-    "columns",
-    (c) => c.id === props.default?.columnId
-  )[0];
+  if (props.default) {
+    const column = getFromLS<ColumnType>(
+      "columns",
+      (c) => c.id === props.default!.columnId
+    )[0];
 
-  return { label: column.title, value: column.id } as OptionType;
+    return { label: column.title, value: column.id } as OptionType;
+  }
+
+  return dropdownOptions.value[0];
 }
 
-const dropdownDefault = ref<OptionType>(
-  props.dropdownDefault ?? getDropdownDefault()
-);
+const dropdownDefault = ref<OptionType>(getDropdownDefault());
 </script>
 
 <template>

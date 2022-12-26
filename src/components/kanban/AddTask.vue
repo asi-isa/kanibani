@@ -27,25 +27,6 @@ const emit = defineEmits(["created"]);
 
 const showForm = ref(false);
 
-function getColumns() {
-  return getFromLS<ColumnType>("columns", (c) => c.boardId === props.board?.id);
-}
-
-const dropdownOptions = ref<OptionType[]>();
-const dropdownOptionDefault = ref<OptionType>();
-
-watch(
-  () => props.board,
-  () => {
-    dropdownOptions.value = getColumns().map((c) => ({
-      value: c.id,
-      label: c.title,
-    }));
-
-    dropdownOptionDefault.value = dropdownOptions.value[0];
-  }
-);
-
 function onCreated() {
   showForm.value = false;
 
@@ -67,10 +48,6 @@ function onCreated() {
   </div>
 
   <Modal :show="showForm" title="Add New Task" @close="showForm = false">
-    <TaskForm
-      :dropdown-options="dropdownOptions"
-      :dropdown-default="dropdownOptionDefault"
-      @created="onCreated"
-    />
+    <TaskForm @created="onCreated" :board="props.board!" />
   </Modal>
 </template>

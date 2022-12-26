@@ -7,7 +7,7 @@ import Btn from "../Btn.vue";
 import type { ColumnType } from "@/components/kanban/AddColumn.vue";
 import type { BoardType } from "@/components/Sidebar.vue";
 import { updateLS } from "@/utils/ls";
-import deleteFromLS from "@/utils/ls/deleteFromLS";
+import deleteFromLS, { deleteFromLSColumns } from "@/utils/ls/deleteFromLS";
 import getFromLS from "@/utils/ls/getFromLS";
 
 interface EditFormProps {
@@ -37,11 +37,12 @@ const formInputInitValues = {
 
 const formInputs = ref<BoardFormInput>(formInputInitValues);
 
+function getColumns() {
+  return getFromLS<ColumnType>("columns", (c) => c.boardId === props.board.id);
+}
+
 function updateFormInputs() {
-  const defaultColumns = getFromLS<ColumnType>(
-    "columns",
-    (c) => c.boardId === props.board.id
-  )?.map((c) => ({
+  const defaultColumns = getColumns().map((c) => ({
     value: c,
     isValid: true,
   }));
@@ -95,9 +96,14 @@ function onSubmit() {
       ...item.value,
     }));
 
-    // delete every column
-    deleteFromLS("columns", (c) => true);
-    // add columns
+    const columnsToDelete = getColumns().filter((c) => {
+      return !columns.some((c2) => c2.id === c.id);
+    });
+
+    columnsToDelete.forEach((ctd) => {
+      deleteFromLSColumns((c) => c.id === ctd.id);
+    });
+    // update columns
     columns.forEach((column) => {
       updateLS("columns", column);
     });

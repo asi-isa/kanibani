@@ -15,6 +15,8 @@ interface KanbanProps {
 
 const props = defineProps<KanbanProps>();
 
+const emit = defineEmits(["delete"]);
+
 // TODO abstract
 const columns = ref<ColumnType[]>();
 
@@ -38,6 +40,7 @@ watch(() => props.board, updateColumns);
     :board="props.board"
     @task-created="updateColumns"
     @update="updateColumns"
+    @delete="emit('delete')"
   />
 
   <div

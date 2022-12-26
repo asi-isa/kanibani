@@ -6,6 +6,9 @@ import EditForm from "./form/board/EditForm.vue";
 import AddTask from "./kanban/AddTask.vue";
 import type { BoardType } from "./Sidebar.vue";
 import Modal from "./util/Modal.vue";
+import deleteFromLS, { deleteFromLSBoards } from "@/utils/ls/deleteFromLS";
+
+import type { ColumnType } from "./kanban/AddColumn.vue";
 
 interface NavbarProps {
   board: BoardType | undefined;
@@ -13,7 +16,7 @@ interface NavbarProps {
 
 const props = defineProps<NavbarProps>();
 
-const emit = defineEmits(["taskCreated", "update"]);
+const emit = defineEmits(["taskCreated", "update", "delete"]);
 
 const showMenu = ref(false);
 const showEditForm = ref(false);
@@ -24,7 +27,13 @@ function onShowEditForm() {
   showMenu.value = false;
 }
 
-function onDelete() {}
+function onDelete() {
+  deleteFromLSBoards((b) => b.id === props.board?.id);
+
+  showMenu.value = false;
+
+  emit("delete");
+}
 
 function onUpdate() {
   emit("update");
