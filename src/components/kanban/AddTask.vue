@@ -6,7 +6,7 @@ import { IconPlus } from "@iconify-prerendered/vue-mdi";
 import type { BoardType } from "../Sidebar.vue";
 import Modal from "../util/Modal.vue";
 import TaskForm from "../form/TaskForm.vue";
-import getFromLS from "@/utils/getFromLS";
+import getFromLS from "@/utils/ls/getFromLS";
 import type { ColumnType } from "./AddColumn.vue";
 import type { OptionType } from "../form/Dropdown.vue";
 

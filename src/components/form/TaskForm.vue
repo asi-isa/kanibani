@@ -2,7 +2,7 @@
 import { ref, watch } from "vue";
 import { v4 as uuidv4 } from "uuid";
 
-import getFromLS from "@/utils/getFromLS";
+import getFromLS from "@/utils/ls/getFromLS";
 import type { TaskType } from "../kanban/AddTask.vue";
 import type { OptionType } from "./Dropdown.vue";
 import type { SubtaskType } from "./subtasks/SubtasksInput.vue";
@@ -91,8 +91,6 @@ function onSubmit() {
       columnId,
     };
 
-    console.log("onSubmit, task", task);
-
     const previousTasks = JSON.parse(localStorage.getItem("tasks") ?? "{}");
 
     const tasks = {
@@ -160,14 +158,6 @@ function getDropdownDefault() {
 
 const dropdownDefault = ref<OptionType>(
   props.dropdownDefault ?? getDropdownDefault()
-);
-
-watch(
-  formInputs,
-  () => {
-    console.log("formInputs", formInputs.value);
-  },
-  { deep: true }
 );
 </script>
 

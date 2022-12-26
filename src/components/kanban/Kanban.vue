@@ -7,7 +7,7 @@ import type { TaskType } from "./AddTask.vue";
 import Column from "./Column.vue";
 import Task from "./Task.vue";
 import Navbar from "../Navbar.vue";
-import getFromLS from "../../utils/getFromLS";
+import getFromLS from "../../utils/ls/getFromLS";
 
 interface KanbanProps {
   board: BoardType | undefined;

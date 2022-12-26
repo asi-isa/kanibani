@@ -2,7 +2,7 @@
 import { IconCheck } from "@iconify-prerendered/vue-mdi";
 
 import type { SubtaskType } from "./SubtasksInput.vue";
-import getFromLS from "@/utils/getFromLS";
+import getFromLS from "@/utils/ls/getFromLS";
 
 interface SubtaskProps {
   subtask: SubtaskType;

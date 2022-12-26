@@ -6,7 +6,8 @@ import Subtask from "../form/subtasks/Subtask.vue";
 import type { SubtaskType } from "../form/subtasks/SubtasksInput.vue";
 import Modal from "../util/Modal.vue";
 import type { TaskType } from "./AddTask.vue";
-import getFromLS from "../../utils/getFromLS";
+import getFromLS from "../../utils/ls/getFromLS";
+import deleteFromLS from "../../utils/ls/deleteFromLS";
 import AddTask from "./AddTask.vue";
 import type { BoardType } from "../Sidebar.vue";
 import type { ColumnType } from "./AddColumn.vue";
@@ -66,7 +67,13 @@ function onEdit() {
   onChange();
 }
 
-function onDelete() {}
+function onDelete() {
+  deleteFromLS<TaskType>("tasks", (t) => t.id === props.task.id);
+  deleteFromLS<SubtaskType>("subtasks", (st) => st.taskId === props.task.id);
+
+  showModal.value = false;
+  onChange();
+}
 </script>
 
 <template>
