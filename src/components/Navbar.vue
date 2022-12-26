@@ -54,7 +54,11 @@ function onUpdate() {
       <AddTask :board="props.board" @created="emit('taskCreated')" />
 
       <IconDotsVertical
-        class="text-xl text-[var(--color)] dark:text-[var(--color-dark)] opacity-70 hover:opacity-100 cursor-pointer"
+        class="text-xl text-[var(--color)] dark:text-[var(--color-dark)] cursor-pointer"
+        :class="[
+          { 'opacity-0': !props.board },
+          { 'pointer-events-none': !props.board },
+        ]"
         @click="showMenu = !showMenu"
       />
 
