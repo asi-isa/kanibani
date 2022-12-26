@@ -50,7 +50,7 @@ function onBoardCreated(board: BoardType) {
       <p class="font-bold">kanibani</p>
     </div>
 
-    <div class="h-full overflow-y-auto flex flex-col justify-between">
+    <div class="h-full flex flex-col justify-between">
       <div class="flex flex-col gap-3">
         <p class="text-[var(--color-muted)] text-xs tracking-wider ml-5">
           ALL BOARDS ({{ boards.length }})

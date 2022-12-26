@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref } from "vue";
 
 import { IconPlus } from "@iconify-prerendered/vue-mdi";
 
@@ -26,7 +26,7 @@ function onCreated() {
 
 <template>
   <div
-    class="flex items-center gap-2 bg-[var(--accent)] py-2 px-4 rounded-3xl cursor-pointer"
+    class="flex items-center gap-2 bg-[var(--accent)] py-2 px-4 h-10 rounded-3xl cursor-pointer"
     :class="[
       { 'opacity-0': !props.board },
       { 'pointer-events-none': !props.board },
@@ -34,7 +34,7 @@ function onCreated() {
     @click="showForm = true"
   >
     <IconPlus class="text-xl" />
-    <p class="font-bold">Add New Task</p>
+    <p class="font-bold hidden md:flex">Add New Task</p>
   </div>
 
   <Modal :show="showForm" title="Add New Task" @close="showForm = false">

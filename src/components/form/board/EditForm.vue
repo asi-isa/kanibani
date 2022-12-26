@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, watchEffect } from "vue";
+import { ref } from "vue";
 
 import TextInput from "../TextInput.vue";
 import OptionalTextInput from "../OptionalTextInput.vue";
@@ -7,7 +7,7 @@ import Btn from "../Btn.vue";
 
 import type { ColumnType, BoardType } from "@/types";
 import { updateLS } from "@/utils/ls";
-import deleteFromLS, { deleteFromLSColumns } from "@/utils/ls/deleteFromLS";
+import { deleteFromLSColumns } from "@/utils/ls/deleteFromLS";
 import getFromLS from "@/utils/ls/getFromLS";
 
 interface EditFormProps {

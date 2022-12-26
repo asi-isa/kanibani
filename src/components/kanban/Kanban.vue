@@ -42,7 +42,7 @@ watch(() => props.board, updateColumns);
   />
 
   <div
-    class="bg-[var(--background)] dark:bg-[var(--background-dark)] transition-colors duration-500 p-4 flex gap-4 w-screen h-fit overflow-auto"
+    class="bg-[var(--background)] dark:bg-[var(--background-dark)] transition-colors duration-500 p-4 flex flex-wrap gap-4 h-fit"
   >
     <template v-for="column in columns" :id="column.id">
       <Column

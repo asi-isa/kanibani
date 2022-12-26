@@ -53,7 +53,7 @@ onMounted(() => {
   />
 
   <div
-    class="h-screen flex flex-col transition-all duration-500 overflow-hidden"
+    class="h-screen flex flex-col transition-all duration-500 overflow-x-hidden"
     :class="{ 'pl-60': !hideSidebar }"
   >
     <Kanban :board="selectedBoard" @delete="selectedBoard = undefined" />
