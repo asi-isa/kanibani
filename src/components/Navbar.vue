@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { IconDotsVertical } from "@iconify-prerendered/vue-mdi";
+
+import EditForm from "./form/board/EditForm.vue";
 import AddTask from "./kanban/AddTask.vue";
 import type { BoardType } from "./Sidebar.vue";
+import Modal from "./util/Modal.vue";
 
 interface NavbarProps {
   board: BoardType | undefined;
@@ -9,10 +13,23 @@ interface NavbarProps {
 
 const props = defineProps<NavbarProps>();
 
-const emit = defineEmits(["taskCreated"]);
+const emit = defineEmits(["taskCreated", "update"]);
 
-function onClicked() {
-  console.log("clicked");
+const showMenu = ref(false);
+const showEditForm = ref(false);
+
+function onShowEditForm() {
+  showEditForm.value = true;
+
+  showMenu.value = false;
+}
+
+function onDelete() {}
+
+function onUpdate() {
+  emit("update");
+
+  showEditForm.value = false;
 }
 </script>
 
@@ -28,8 +45,34 @@ function onClicked() {
       <AddTask :board="props.board" @created="emit('taskCreated')" />
 
       <IconDotsVertical
-        class="text-xl text-[var(--color-muted-dark)] cursor-pointer"
+        class="text-xl text-[var(--color)] dark:text-[var(--color-dark)] opacity-70 hover:opacity-100 cursor-pointer"
+        @click="showMenu = !showMenu"
       />
+
+      <div
+        v-if="showMenu"
+        class="absolute top-6 right-6 py-3 px-4 rounded flex flex-col items-center gap-2 bg-[var(--color)] dark:bg-[var(--color-dark)] z-10"
+      >
+        <p
+          class="dark:text-[var(--color)] text-[var(--color-dark)] cursor-pointer"
+          @click="onShowEditForm"
+        >
+          Edit Board
+        </p>
+        <div
+          class="w-full h-[1px] dark:bg-[var(--color)] bg-[var(--color-dark)]"
+        ></div>
+        <p
+          class="dark:text-[var(--color)] text-[var(--color-dark)] cursor-pointer"
+          @click="onDelete"
+        >
+          Delete Board
+        </p>
+      </div>
     </div>
   </div>
+
+  <Modal :show="showEditForm" title="Edit Board" @close="showEditForm = false">
+    <EditForm :board="props.board!" @update="onUpdate" />
+  </Modal>
 </template>

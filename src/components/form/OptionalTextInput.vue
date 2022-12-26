@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { IconClose } from "@iconify-prerendered/vue-mdi";
 
-import ValidationInfo from "../ValidationInfo.vue";
+import ValidationInfo from "./ValidationInfo.vue";
 
-interface SubtaskInputProps {
+interface OptionalTextInputProps {
   modelValue: string;
   isValid: boolean;
 }
 
-const props = defineProps<SubtaskInputProps>();
+const props = defineProps<OptionalTextInputProps>();
 const emit = defineEmits(["update:modelValue", "change:isValid", "delete"]);
 
 function onInput(e: Event) {

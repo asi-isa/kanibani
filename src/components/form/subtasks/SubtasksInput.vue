@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
 import { v4 as uuidv4 } from "uuid";
 
-import SubtaskInput from "./SubtaskInput.vue";
+import OptionalTextInput from "../OptionalTextInput.vue";
 import Btn from "../Btn.vue";
 import ValidationInfo from "../ValidationInfo.vue";
 
@@ -48,7 +47,7 @@ function removeSubtask(id: string) {
 
     <div class="flex flex-col gap-2">
       <template v-for="item in props.modelValue" :id="item.value.id">
-        <SubtaskInput
+        <OptionalTextInput
           v-model="item.value.title"
           :is-valid="item.isValid"
           @delete="removeSubtask(item.value.id)"

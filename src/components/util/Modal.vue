@@ -3,7 +3,7 @@ import { IconClose } from "@iconify-prerendered/vue-mdi";
 
 interface ModalProps {
   show: boolean;
-  title: string;
+  title: string | undefined;
 }
 
 const { show, title } = defineProps<ModalProps>();

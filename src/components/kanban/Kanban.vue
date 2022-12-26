@@ -34,7 +34,11 @@ watch(() => props.board, updateColumns);
 </script>
 
 <template>
-  <Navbar :board="props.board" @task-created="updateColumns" />
+  <Navbar
+    :board="props.board"
+    @task-created="updateColumns"
+    @update="updateColumns"
+  />
 
   <div
     class="bg-[var(--background)] dark:bg-[var(--background-dark)] transition-colors duration-500 p-4 flex gap-4 w-screen h-fit overflow-auto"
