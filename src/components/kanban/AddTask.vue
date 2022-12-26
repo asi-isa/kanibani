@@ -3,19 +3,9 @@ import { ref, watch } from "vue";
 
 import { IconPlus } from "@iconify-prerendered/vue-mdi";
 
-import type { BoardType } from "../Sidebar.vue";
+import type { BoardType } from "@/types";
 import Modal from "../util/Modal.vue";
 import TaskForm from "../form/TaskForm.vue";
-import getFromLS from "@/utils/ls/getFromLS";
-import type { ColumnType } from "./AddColumn.vue";
-import type { OptionType } from "../form/Dropdown.vue";
-
-export type TaskType = {
-  id: string;
-  title: string;
-  description: string;
-  columnId: string;
-};
 
 interface AddTaskProps {
   board: BoardType | undefined;

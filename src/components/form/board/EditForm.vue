@@ -4,8 +4,8 @@ import { ref, watch, watchEffect } from "vue";
 import TextInput from "../TextInput.vue";
 import OptionalTextInput from "../OptionalTextInput.vue";
 import Btn from "../Btn.vue";
-import type { ColumnType } from "@/components/kanban/AddColumn.vue";
-import type { BoardType } from "@/components/Sidebar.vue";
+
+import type { ColumnType, BoardType } from "@/types";
 import { updateLS } from "@/utils/ls";
 import deleteFromLS, { deleteFromLSColumns } from "@/utils/ls/deleteFromLS";
 import getFromLS from "@/utils/ls/getFromLS";

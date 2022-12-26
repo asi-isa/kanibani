@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { IconCheck } from "@iconify-prerendered/vue-mdi";
 
-import type { SubtaskType } from "./SubtasksInput.vue";
+import type { SubtaskType } from "@/types";
 import getFromLS from "@/utils/ls/getFromLS";
 
 interface SubtaskProps {
@@ -39,11 +39,11 @@ function toggleIsFinished() {
 
 <template>
   <div
-    class="flex gap-2 items-center p-2 bg-[var(--background)] dark:bg-[var(--background-dark)] cursor-pointer"
+    class="flex gap-3 items-center p-2 bg-[var(--background)] dark:bg-[var(--background-dark)] cursor-pointer"
     @click="toggleIsFinished"
   >
     <div
-      class="w-4 h-4 flex items-center justify-center border border-[var(--color-muted)] dark:border-[var(--color-muted-dark)] rounded-sm"
+      class="w-4 h-4 flex items-center justify-center border border-[var(--color-muted)] dark:border-[var(--color-muted-dark)] rounded-sm shrink-0"
       :class="{ 'bg-[var(--accent)]': props.subtask.isFinished }"
     >
       <IconCheck v-if="props.subtask.isFinished" />

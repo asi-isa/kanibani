@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 
-import type { BoardType } from "../Sidebar.vue";
-import AddColumn, { type ColumnType } from "./AddColumn.vue";
-import type { TaskType } from "./AddTask.vue";
+import type { BoardType, ColumnType, TaskType } from "@/types";
+import AddColumn from "./AddColumn.vue";
 import Column from "./Column.vue";
-import Task from "./Task.vue";
 import Navbar from "../Navbar.vue";
 import getFromLS from "../../utils/ls/getFromLS";
 

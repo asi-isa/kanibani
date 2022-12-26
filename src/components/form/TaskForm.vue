@@ -3,16 +3,14 @@ import { ref, watch } from "vue";
 import { v4 as uuidv4 } from "uuid";
 
 import getFromLS from "@/utils/ls/getFromLS";
-import type { TaskType } from "../kanban/AddTask.vue";
 import type { OptionType } from "./Dropdown.vue";
-import type { SubtaskType } from "./subtasks/SubtasksInput.vue";
 import TextInput from "./TextInput.vue";
 import Textarea from "./Textarea.vue";
 import SubtasksInput from "./subtasks/SubtasksInput.vue";
 import Dropdown from "./Dropdown.vue";
 import Btn from "./Btn.vue";
-import type { ColumnType } from "../kanban/AddColumn.vue";
-import type { BoardType } from "../Sidebar.vue";
+
+import type { TaskType, SubtaskType, ColumnType, BoardType } from "@/types";
 
 interface TaskFormProps {
   board?: BoardType;

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { onBeforeMount, ref } from "vue";
+import { onBeforeMount, onMounted, ref } from "vue";
 
-import Navbar from "./components/Navbar.vue";
-import Sidebar, { type BoardType } from "./components/Sidebar.vue";
+import type { BoardType } from "@/types";
+import Sidebar from "./components/Sidebar.vue";
 import Kanban from "./components/kanban/Kanban.vue";
+import createWelcomeBoard from "./utils/createWelcomeBoard";
 
 function setInitialThemeToLS() {
   // theme not set in ls
@@ -33,6 +34,14 @@ onBeforeMount(() => {
 const hideSidebar = ref(false);
 
 const selectedBoard = ref<BoardType>();
+
+onMounted(() => {
+  const welcomeBoard = createWelcomeBoard();
+
+  if (welcomeBoard) {
+    selectedBoard.value = welcomeBoard;
+  }
+});
 </script>
 
 <template>

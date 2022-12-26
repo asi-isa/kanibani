@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import CreateBoardInactive from "./CreateBoardInactive.vue";
 import CreateBoardActive from "./CreateBoardActive.vue";
-import type { BoardType } from "../Sidebar.vue";
+import type { BoardType } from "@/types";
 
 const emit = defineEmits(["created"]);
 
@@ -51,11 +51,6 @@ function onSubmit() {
     };
 
     localStorage.setItem("boards", JSON.stringify(newBoards));
-
-    // create mandatory columns for every new board
-    createColumn("TODO", "bg-indigo-600", id);
-    createColumn("DOING", "bg-pink-600", id);
-    createColumn("DONE", "bg-teal-800", id);
 
     showInput.value = false;
 

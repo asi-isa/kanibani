@@ -4,11 +4,9 @@ import { IconDotsVertical } from "@iconify-prerendered/vue-mdi";
 
 import EditForm from "./form/board/EditForm.vue";
 import AddTask from "./kanban/AddTask.vue";
-import type { BoardType } from "./Sidebar.vue";
+import type { BoardType } from "@/types";
 import Modal from "./util/Modal.vue";
-import deleteFromLS, { deleteFromLSBoards } from "@/utils/ls/deleteFromLS";
-
-import type { ColumnType } from "./kanban/AddColumn.vue";
+import { deleteFromLSBoards } from "@/utils/ls/deleteFromLS";
 
 interface NavbarProps {
   board: BoardType | undefined;

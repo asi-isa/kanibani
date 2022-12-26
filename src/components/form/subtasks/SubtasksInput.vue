@@ -4,13 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import OptionalTextInput from "../OptionalTextInput.vue";
 import Btn from "../Btn.vue";
 import ValidationInfo from "../ValidationInfo.vue";
-
-export type SubtaskType = {
-  id: string;
-  taskId: string;
-  title: string;
-  isFinished: boolean;
-};
+import type { SubtaskType } from "@/types";
 
 interface SubtasksInputProps {
   modelValue: {

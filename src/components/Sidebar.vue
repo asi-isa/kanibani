@@ -11,8 +11,7 @@ import ToggleDarkMode from "./ToggleDarkMode.vue";
 import BoardTitle from "./sidebar/BoardTitle.vue";
 import CreateBoard from "./sidebar/CreateBoard.vue";
 import getFromLS from "@/utils/ls/getFromLS";
-
-export type BoardType = { id: string; title: string };
+import type { BoardType } from "@/types";
 
 interface SidebarProps {
   hide: boolean;

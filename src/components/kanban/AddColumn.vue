@@ -7,15 +7,7 @@ import ColorSelection from "../form/ColorSelection.vue";
 import TextInput from "../form/TextInput.vue";
 import Btn from "../form/Btn.vue";
 import Modal from "../util/Modal.vue";
-import type { BoardType } from "../Sidebar.vue";
-
-export type ColumnType = {
-  id: string;
-  boardId: string | undefined;
-  date: Date;
-  title: string;
-  color: string;
-};
+import type { BoardType, ColumnType } from "@/types";
 
 interface AddColumnProps {
   board: BoardType | undefined;
@@ -56,14 +48,12 @@ function onSubmit() {
 
   if (formIsValid) {
     const id = uuidv4();
-    const date = new Date();
     const title = formInputs.value.title.value;
     const color = formInputs.value.color.value;
 
-    const column = {
+    const column: ColumnType = {
       id,
       boardId: props.board?.id,
-      date,
       title,
       color,
     };

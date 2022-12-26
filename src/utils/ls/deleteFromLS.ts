@@ -1,7 +1,4 @@
-import type { SubtaskType } from "@/components/form/subtasks/SubtasksInput.vue";
-import type { ColumnType } from "@/components/kanban/AddColumn.vue";
-import type { TaskType } from "@/components/kanban/AddTask.vue";
-import type { BoardType } from "@/components/Sidebar.vue";
+import type { TaskType, SubtaskType, ColumnType, BoardType } from "@/types";
 import getFromLS from "./getFromLS";
 
 interface Idable {

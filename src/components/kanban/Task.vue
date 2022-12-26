@@ -3,14 +3,10 @@ import { ref } from "vue";
 import { IconDotsVertical } from "@iconify-prerendered/vue-mdi";
 
 import Subtask from "../form/subtasks/Subtask.vue";
-import type { SubtaskType } from "../form/subtasks/SubtasksInput.vue";
+import type { TaskType, SubtaskType, ColumnType, BoardType } from "@/types";
 import Modal from "../util/Modal.vue";
-import type { TaskType } from "./AddTask.vue";
 import getFromLS from "../../utils/ls/getFromLS";
 import deleteFromLS from "../../utils/ls/deleteFromLS";
-import AddTask from "./AddTask.vue";
-import type { BoardType } from "../Sidebar.vue";
-import type { ColumnType } from "./AddColumn.vue";
 import TaskForm from "../form/TaskForm.vue";
 
 interface TaskProps {
