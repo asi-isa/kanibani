@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { IconDotsVertical } from "@iconify-prerendered/vue-mdi";
 
 import Subtask from "../form/subtasks/Subtask.vue";
 import type { SubtaskType } from "../form/subtasks/SubtasksInput.vue";
 import Modal from "../util/Modal.vue";
 import type { TaskType } from "./AddTask.vue";
-import getFromLs from "../../utils/getFromLS";
+import getFromLS from "../../utils/getFromLS";
+import AddTask from "./AddTask.vue";
+import type { BoardType } from "../Sidebar.vue";
+import type { ColumnType } from "./AddColumn.vue";
+import TaskForm from "../form/TaskForm.vue";
 
 interface TaskProps {
   task: TaskType;
@@ -15,15 +20,38 @@ const props = defineProps<TaskProps>();
 
 const emit = defineEmits(["change"]);
 
+const board = ref<BoardType>(getBoard());
+
+function getBoard() {
+  const column = getFromLS<ColumnType>(
+    "columns",
+    (c) => c.id === props.task.columnId
+  )[0];
+  return getFromLS<BoardType>("boards", (b) => b.id === column.boardId)[0];
+}
+
 const showModal = ref(false);
+const showMenu = ref(false);
+const showEditForm = ref(false);
 
 const subtasks = ref<SubtaskType[]>(getSubtasks());
 
 function getSubtasks() {
-  return getFromLs<SubtaskType>(
+  return getFromLS<SubtaskType>(
     "subtasks",
     (st) => st.taskId === props.task.id
   );
+}
+
+function onModalClose() {
+  showMenu.value = false;
+  showModal.value = false;
+}
+
+function onShowEditForm() {
+  showEditForm.value = true;
+
+  showMenu.value = false;
 }
 
 function onChange() {
@@ -31,6 +59,14 @@ function onChange() {
 
   subtasks.value = getSubtasks();
 }
+
+function onEdit() {
+  showEditForm.value = false;
+
+  onChange();
+}
+
+function onDelete() {}
 </script>
 
 <template>
@@ -46,18 +82,57 @@ function onChange() {
     </p>
   </div>
 
-  <Modal :show="showModal" :title="props.task.title" @close="showModal = false">
-    <div class="flex flex-col gap-3">
-      <p>{{ props.task.description }}</p>
+  <Modal :show="showModal" :title="props.task.title" @close="onModalClose">
+    <template #header>
+      <IconDotsVertical
+        class="text-2xl opacity-80 hover:opacity-100 cursor-pointer"
+        @click="showMenu = !showMenu"
+      />
 
-      <p>
-        Subtasks ({{ subtasks.filter((st) => st.isFinished).length }} of
-        {{ subtasks.length }})
-      </p>
+      <div
+        v-if="showMenu"
+        class="absolute top-6 right-6 py-2 px-4 rounded flex flex-col items-center gap-2 bg-[var(--color)] dark:bg-[var(--color-dark)] z-10"
+      >
+        <p
+          class="dark:text-[var(--color)] text-[var(--color-dark)] cursor-pointer"
+          @click="onShowEditForm"
+        >
+          Edit
+        </p>
+        <div
+          class="w-full h-[1px] dark:bg-[var(--color)] bg-[var(--color-dark)]"
+        ></div>
+        <p
+          class="dark:text-[var(--color)] text-[var(--color-dark)] cursor-pointer"
+          @click="onDelete"
+        >
+          Delete
+        </p>
+      </div>
+    </template>
 
-      <template v-for="subtask in subtasks" :id="subtask.id">
-        <Subtask :subtask="subtask" @change="onChange" />
-      </template>
+    <div class="flex flex-col gap-5">
+      <div>
+        <p class="font-bold mb-2">Description</p>
+        <p>{{ props.task.description }}</p>
+      </div>
+
+      <div>
+        <p class="font-bold mb-2">
+          Subtasks ({{ subtasks.filter((st) => st.isFinished).length }} of
+          {{ subtasks.length }})
+        </p>
+
+        <div class="flex flex-col gap-2">
+          <template v-for="subtask in subtasks" :id="subtask.id">
+            <Subtask :subtask="subtask" @change="onChange" />
+          </template>
+        </div>
+      </div>
     </div>
+  </Modal>
+
+  <Modal :show="showEditForm" title="Edit Task" @close="showEditForm = false">
+    <TaskForm :default="props.task" @created="onEdit" />
   </Modal>
 </template>

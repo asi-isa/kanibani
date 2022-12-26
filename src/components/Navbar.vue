@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconDotsVertical, IconPlus } from "@iconify-prerendered/vue-mdi";
+import { IconDotsVertical } from "@iconify-prerendered/vue-mdi";
 import AddTask from "./kanban/AddTask.vue";
 import type { BoardType } from "./Sidebar.vue";
 

@@ -14,6 +14,10 @@ export type SubtaskType = {
 };
 
 interface SubtasksInputProps {
+  modelValue: {
+    value: SubtaskType;
+    isValid: boolean;
+  }[];
   isValid: boolean;
 }
 
@@ -21,38 +25,21 @@ const props = defineProps<SubtasksInputProps>();
 
 const emit = defineEmits(["update:modelValue"]);
 
-// TODO No duplicate data storage
-const subtasks = ref<
-  {
-    value: SubtaskType;
-    isValid: boolean;
-  }[]
->([
-  {
-    value: { id: uuidv4(), taskId: "", title: "", isFinished: false },
-    isValid: true,
-  },
-]);
-
 function addSubtask() {
   const subtask = {
     value: { id: uuidv4(), taskId: "", title: "", isFinished: false },
     isValid: true,
   };
-  subtasks.value.push(subtask);
+
+  emit("update:modelValue", [...props.modelValue, subtask]);
 }
 
 function removeSubtask(id: string) {
-  subtasks.value = subtasks.value.filter((st) => st.value.id !== id);
+  emit(
+    "update:modelValue",
+    props.modelValue.filter((st) => st.value.id !== id)
+  );
 }
-
-watch(
-  subtasks,
-  () => {
-    emit("update:modelValue", subtasks.value);
-  },
-  { deep: true }
-);
 </script>
 
 <template>
@@ -60,7 +47,7 @@ watch(
     <p class="font-medium">Subtasks</p>
 
     <div class="flex flex-col gap-2">
-      <template v-for="item in subtasks" :id="item.value.id">
+      <template v-for="item in props.modelValue" :id="item.value.id">
         <SubtaskInput
           v-model="item.value.title"
           :is-valid="item.isValid"
@@ -70,7 +57,7 @@ watch(
       </template>
     </div>
 
-    <Btn title="Add New Subtask" invert-colors @click.prevent="addSubtask" />
+    <Btn title="Add Subtask" invert-colors @click.prevent="addSubtask" />
 
     <ValidationInfo
       :info="props.isValid ? null : 'Please provide subtask descriptions.'"
