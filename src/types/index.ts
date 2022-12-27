@@ -17,6 +17,7 @@ export type TaskType = {
   title: string;
   description: string;
   columnId: string;
+  order: number;
 };
 
 export type BoardType = { id: string; title: string };

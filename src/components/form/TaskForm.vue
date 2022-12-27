@@ -81,11 +81,14 @@ function onSubmit() {
 
     const columnId = formInputs.value.columnId.value;
 
+    const nextOrder = getFromLS("tasks").length + 1;
+
     const task: TaskType = {
       id,
       title,
       description,
       columnId,
+      order: nextOrder,
     };
 
     const previousTasks = JSON.parse(localStorage.getItem("tasks") ?? "{}");

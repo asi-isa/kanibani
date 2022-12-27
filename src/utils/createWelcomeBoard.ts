@@ -43,6 +43,7 @@ export default function () {
       id: task1Id,
       description: "Learn what a kanban is and how to use it.",
       title: "Kanban",
+      order: 1,
     };
     updateLS("tasks", task1);
 
@@ -86,6 +87,7 @@ export default function () {
       id: task2Id,
       description: "Learn how to use kanibani.",
       title: "How To",
+      order: 2,
     };
     updateLS("tasks", task2);
 
@@ -105,6 +107,7 @@ export default function () {
       id: task3Id,
       description: "You can drag and drop your tasks between your columns.",
       title: "Drag & Drop",
+      order: 3,
     };
     updateLS("tasks", task3);
 

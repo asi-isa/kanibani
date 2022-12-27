@@ -27,7 +27,9 @@ function updateColumns() {
 }
 
 function getTasks(columnId: string) {
-  return getFromLS<TaskType>("tasks", (t) => t.columnId === columnId);
+  return getFromLS<TaskType>("tasks", (t) => t.columnId === columnId).sort(
+    (a, b) => a.order - b.order
+  );
 }
 
 watch(() => props.board, updateColumns);
@@ -42,7 +44,7 @@ watch(() => props.board, updateColumns);
   />
 
   <div
-    class="bg-[var(--background)] dark:bg-[var(--background-dark)] transition-colors duration-500 p-4 flex flex-wrap gap-4 h-fit"
+    class="bg-[var(--background)] dark:bg-[var(--background-dark)] transition-colors duration-500 p-4 flex flex-wrap gap-10 sm:gap-5 h-fit"
   >
     <template v-for="column in columns" :id="column.id">
       <Column

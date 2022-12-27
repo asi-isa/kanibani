@@ -74,6 +74,7 @@ function onDelete() {
 
 <template>
   <div
+    :id="props.task.id"
     class="bg-[var(--background-muted)] dark:bg-[var(--background-muted-dark)] w-64 p-4 rounded-md flex flex-col gap-2 cursor-pointer"
     @click="showModal = true"
   >

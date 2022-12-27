@@ -12,11 +12,13 @@
   "dependencies": {
     "@iconify-prerendered/vue-mdi": "^0.17.1671435623",
     "motion": "^10.15.3",
+    "sortablejs": "^1.15.0",
     "uuid": "^9.0.0",
     "vue": "^3.2.45"
   },
   "devDependencies": {
     "@types/node": "^18.11.12",
+    "@types/sortablejs": "^1.15.0",
     "@types/uuid": "^9.0.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/tsconfig": "^0.1.3",
