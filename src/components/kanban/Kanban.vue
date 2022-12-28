@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
+import { v4 as uuidv4 } from "uuid";
 
 import type { BoardType, ColumnType, TaskType } from "@/types";
 import AddColumn from "./AddColumn.vue";
@@ -14,6 +15,12 @@ interface KanbanProps {
 const props = defineProps<KanbanProps>();
 
 const emit = defineEmits(["delete"]);
+
+const key = ref(uuidv4());
+
+function rerender() {
+  key.value = uuidv4();
+}
 
 // TODO abstract
 const columns = ref<ColumnType[]>();
@@ -46,11 +53,12 @@ watch(() => props.board, updateColumns);
   <div
     class="bg-[var(--background)] dark:bg-[var(--background-dark)] transition-colors duration-500 p-4 flex flex-wrap gap-10 sm:gap-5 h-fit"
   >
-    <template v-for="column in columns" :id="column.id">
+    <template v-for="column in columns" :id="column.id" :key="key">
       <Column
         :column="column"
         :tasks="getTasks(column.id)"
         @change="updateColumns"
+        @rerender="rerender"
       />
     </template>
 

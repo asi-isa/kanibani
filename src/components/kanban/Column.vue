@@ -15,14 +15,14 @@ interface ColumnProps {
 }
 const props = defineProps<ColumnProps>();
 
-const emit = defineEmits(["change"]);
+const emit = defineEmits(["change", "rerender"]);
 
 onMounted(() => {
   const tasks = document.getElementById(props.column.id);
   Sortable.create(tasks!, {
     group: "tasks",
     animation: 200,
-    onChange: (ev) => {
+    onEnd: (ev) => {
       // get ls state ie previous tasks
       // delete tasks
       // add tasks with new colid and new order
@@ -53,6 +53,8 @@ onMounted(() => {
       tasksInToCol.forEach((t) => {
         updateLS<TaskType>("tasks", t);
       });
+
+      emit("rerender");
     },
   });
 });
