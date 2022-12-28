@@ -42,7 +42,7 @@ function onBoardCreated(board: BoardType) {
 
 <template>
   <div
-    class="h-screen flex flex-col gap-6 py-3 pr-5 bg-[var(--background-muted)] dark:bg-[var(--background-muted-dark)] border-r border-[var(--color-muted)] absolute left-0 top-0 bottom-0 z-10 transition-transform duration-500 w-60"
+    class="h-screen flex flex-col gap-6 py-3 pr-5 bg-[var(--background-muted)] dark:bg-[var(--background-muted-dark)] border-r border-[var(--color-muted)] absolute left-0 top-0 bottom-0 z-10 transition-all duration-500 w-60"
     :class="{ '-translate-x-full': props.hide }"
   >
     <div class="flex items-center gap-3 text-3xl ml-5">
