@@ -14,7 +14,7 @@ export default function () {
     const todoCol: ColumnType = {
       id: todoColId,
       boardId,
-      color: "bg-indigo-600",
+      color: "bg-red-500",
       title: "TODO",
     };
     updateLS("columns", todoCol);
@@ -23,7 +23,7 @@ export default function () {
     const doingCol: ColumnType = {
       id: doingColId,
       boardId,
-      color: "bg-pink-600",
+      color: "bg-lime-500",
       title: "DOING",
     };
     updateLS("columns", doingCol);
@@ -32,7 +32,7 @@ export default function () {
     const doneCol: ColumnType = {
       id: doneColId,
       boardId,
-      color: "bg-teal-800",
+      color: "bg-cyan-500",
       title: "DONE",
     };
     updateLS("columns", doneCol);
@@ -95,11 +95,33 @@ export default function () {
       taskId: task2Id,
       id: uuidv4(),
       isFinished: false,
-      title: "CRUD",
+      title: "Create, update and delete a board",
     };
     updateLS("subtasks", subtaskHowTo1);
 
-    // TODO explain crud
+    const subtaskHowTo2: SubtaskType = {
+      taskId: task2Id,
+      id: uuidv4(),
+      isFinished: false,
+      title: "Create, update and delete a column",
+    };
+    updateLS("subtasks", subtaskHowTo2);
+
+    const subtaskHowTo3: SubtaskType = {
+      taskId: task2Id,
+      id: uuidv4(),
+      isFinished: false,
+      title: "Create, update and delete a task",
+    };
+    updateLS("subtasks", subtaskHowTo3);
+
+    const subtaskHowTo4: SubtaskType = {
+      taskId: task2Id,
+      id: uuidv4(),
+      isFinished: false,
+      title: "Create, update and delete a subtask",
+    };
+    updateLS("subtasks", subtaskHowTo4);
 
     const task3Id = uuidv4();
     const task3: TaskType = {
@@ -110,6 +132,22 @@ export default function () {
       order: 3,
     };
     updateLS("tasks", task3);
+
+    const subtaskDragadrop1: SubtaskType = {
+      taskId: task3Id,
+      id: uuidv4(),
+      isFinished: false,
+      title: "Drag & Drop to reorder tasks.",
+    };
+    updateLS("subtasks", subtaskDragadrop1);
+
+    const subtaskDragadrop2: SubtaskType = {
+      taskId: task3Id,
+      id: uuidv4(),
+      isFinished: false,
+      title: "Drag & Drop tasks between columns.",
+    };
+    updateLS("subtasks", subtaskDragadrop2);
 
     return board;
   }

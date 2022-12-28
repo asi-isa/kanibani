@@ -67,7 +67,10 @@ onMounted(() => {
       </p>
     </div>
 
-    <div :id="props.column.id" class="flex flex-col gap-3">
+    <div
+      :id="props.column.id"
+      class="flex flex-col items-center gap-3 py-3 min-h-[6rem]"
+    >
       <template v-for="task in props.tasks" :id="task.id">
         <Task :task="task" @change="emit('change')" />
       </template>
