@@ -45,18 +45,22 @@ onMounted(() => {
 </script>
 
 <template>
-  <Sidebar
-    :hide="hideSidebar"
-    :selected-board="selectedBoard"
-    @select="(board) => (selectedBoard = board)"
-    @hide="(state) => (hideSidebar = state)"
-  />
-
   <div
-    class="h-screen flex flex-col transition-all duration-500 overflow-x-hidden"
-    :class="{ 'pl-60': !hideSidebar }"
+    class="bg-[var(--background)] dark:bg-[var(--background-dark)] transition-colors duration-500"
   >
-    <Kanban :board="selectedBoard" @delete="selectedBoard = undefined" />
+    <Sidebar
+      :hide="hideSidebar"
+      :selected-board="selectedBoard"
+      @select="(board) => (selectedBoard = board)"
+      @hide="(state) => (hideSidebar = state)"
+    />
+
+    <div
+      class="h-screen flex flex-col transition-all duration-500 overflow-x-hidden"
+      :class="{ 'pl-60': !hideSidebar }"
+    >
+      <Kanban :board="selectedBoard" @delete="selectedBoard = undefined" />
+    </div>
   </div>
 </template>
 
