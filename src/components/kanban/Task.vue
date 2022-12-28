@@ -137,6 +137,6 @@ function onDelete() {
   </Modal>
 
   <Modal :show="showEditForm" title="Edit Task" @close="showEditForm = false">
-    <TaskForm :default="props.task" @created="onEdit" />
+    <TaskForm :default="props.task" :board="board" @created="onEdit" />
   </Modal>
 </template>
