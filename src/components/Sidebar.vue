@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import {
-  IconDotsTriangle,
-  IconEyeOffOutline,
-  IconEyeOutline,
-} from "@iconify-prerendered/vue-mdi";
+import { IconDotsTriangle, IconEyeOutline } from "@iconify-prerendered/vue-mdi";
 
 import FadeIn from "@/transition/FadeIn.vue";
 import ToggleDarkMode from "./ToggleDarkMode.vue";
 import BoardTitle from "./sidebar/BoardTitle.vue";
 import CreateBoard from "./sidebar/CreateBoard.vue";
+import Hidesidebar from "./sidebar/Hidesidebar.vue";
 import getFromLS from "@/utils/ls/getFromLS";
 import type { BoardType } from "@/types";
 
@@ -67,16 +64,15 @@ function onBoardCreated(board: BoardType) {
         <CreateBoard @created="onBoardCreated" />
       </div>
 
+      <Hidesidebar
+        class="ml-5 mt-6 mb-auto md:invisible"
+        @hide="emit('hide', true)"
+      />
+
       <div class="ml-4 flex flex-col gap-5">
         <ToggleDarkMode />
 
-        <div
-          @click="emit('hide', true)"
-          class="flex items-center gap-3 text-[var(--color-muted)] cursor-pointer"
-        >
-          <IconEyeOffOutline />
-          <p>Hide Sidebar</p>
-        </div>
+        <Hidesidebar class="invisible md:visible" @hide="emit('hide', true)" />
       </div>
     </div>
 
@@ -84,7 +80,7 @@ function onBoardCreated(board: BoardType) {
       <div
         v-show="props.hide"
         @click="emit('hide', false)"
-        class="absolute bottom-12 -right-10 w-10 py-2 bg-[var(--accent)] flex items-center justify-center rounded-r-md cursor-pointer"
+        class="absolute top-2 md:top-auto md:bottom-12 -right-10 w-10 aspect-square py-2 bg-[var(--accent)] flex items-center justify-center rounded-r-md cursor-pointer"
       >
         <IconEyeOutline class="text-xl" />
       </div>

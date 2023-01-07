@@ -42,7 +42,7 @@ function onUpdate() {
 
 <template>
   <div
-    class="flex justify-between items-center w-full h-fit px-3 py-2 bg-[var(--background-muted)] dark:bg-[var(--background-muted-dark)] transition-colors duration-500 flex-shrink-0"
+    class="flex justify-between items-center w-screen h-fit overflow-hidden px-3 pl-12 md:pl-3 py-2 bg-[var(--background-muted)] dark:bg-[var(--background-muted-dark)] transition-colors duration-500 flex-shrink-0"
   >
     <p class="text-xl font-bold">
       {{ props.board ? props.board.title : "Select a Board" }}
